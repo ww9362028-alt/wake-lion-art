@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="点击鼓点，随机抽取一张由孩子与 AI 共同创作的专属醒狮图案。"
+    />
+    <title>醒狮灵签｜抽取你的专属狮头</title>
+    <link rel="preload" href="./assets/lion-gallery-sprite.png" as="image" />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main class="site-shell">
+      <div class="paper-grain" aria-hidden="true"></div>
+      <header class="topbar">
+        <a class="brand" href="#top" aria-label="醒狮灵签首页">
+          <span class="brand-seal" aria-hidden="true">醒</span>
+          <span class="brand-copy">
+            <strong>醒狮灵签</strong>
+            <small>YOUNG AI ART</small>
+          </span>
+        </a>
+        <div class="project-badge">
+          <span class="badge-dot" aria-hidden="true"></span>
+          少年 AI 共创计划
+        </div>
+      </header>
+
+      <section class="hero" id="top">
+        <div class="hero-copy">
+          <div class="eyebrow">
+            <span>南粤醒狮</span>
+            <i aria-hidden="true"></i>
+            <span>少年想象力</span>
+          </div>
+          <h1>
+            一击，唤醒你的
+            <em>专属狮头</em>
+          </h1>
+          <p class="hero-intro">
+            六张由孩子与 AI 共同创作的醒狮图案，
+            <br class="desktop-break" />
+            正等待与你相遇。点击鼓点，让灵狮为你送上一句祝福。
+          </p>
+
+          <div class="mini-stats" aria-label="作品信息">
+            <div>
+              <strong>06</strong>
+              <span>少年作品</span>
+            </div>
+            <div class="stat-divider" aria-hidden="true"></div>
+            <div>
+              <strong>01</strong>
+              <span>专属灵狮</span>
+            </div>
+            <div class="stat-divider" aria-hidden="true"></div>
+            <div>
+              <strong>∞</strong>
+              <span>想象可能</span>
+            </div>
+          </div>
+
+          <div class="culture-note">
+            <span class="knot" aria-hidden="true">◆</span>
+            <p>
+              <strong>醒狮，醒志。</strong>
+              每一只灵狮，都藏着孩子眼中的勇气与欢喜。
+            </p>
+          </div>
+        </div>
+
+        <div class="draw-stage">
+          <span class="cloud cloud-one" aria-hidden="true">〰</span>
+          <span class="cloud cloud-two" aria-hidden="true">〰</span>
+
+          <article class="draw-card is-idle" aria-label="专属狮头抽取器">
+            <div class="card-corner corner-left" aria-hidden="true"></div>
+            <div class="card-corner corner-right" aria-hidden="true"></div>
+
+            <div class="card-heading">
+              <span class="card-number">LUCKY LION</span>
+              <span class="card-diamond" aria-hidden="true">◆</span>
+              <span class="card-series">少年醒狮图鉴</span>
+            </div>
+
+            <div class="art-frame">
+              <div class="mystery-art" aria-hidden="true">
+                <div class="mystery-rings">
+                  <span class="mystery-eye eye-left"></span>
+                  <span class="mystery-eye eye-right"></span>
+                  <strong>？</strong>
+                </div>
+                <div class="mystery-clouds">云 · 雷 · 鼓 · 舞</div>
+              </div>
+              <div
+                class="frame-line frame-line-top"
+                aria-hidden="true"
+              ></div>
+              <div
+                class="frame-line frame-line-bottom"
+                aria-hidden="true"
+              ></div>
+            </div>
+
+            <div class="result-copy" aria-live="polite">
+              <p class="result-kicker">灵狮正在沉睡</p>
+              <h2>敲响鼓点，唤醒它</h2>
+              <p>你的专属图案与祝福，将在此刻揭晓</p>
+            </div>
+
+            <button
+              class="draw-button"
+              type="button"
+              aria-label="抽取专属狮头"
+            >
+              <span class="button-drum" aria-hidden="true"><i></i></span>
+              <span class="button-label">击鼓抽取</span>
+              <span class="button-arrow" aria-hidden="true">↗</span>
+            </button>
+            <p class="draw-hint">每次点击都会随机抽取 · 不会连续重复</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="story-strip" aria-label="项目说明">
+        <div class="story-title">
+          <span>ABOUT THE ART</span>
+          <h2>童心作画，醒狮传情</h2>
+        </div>
+        <p>
+          狮头图案由孩子们使用 AI
+          工具设计生成。科技是画笔，传统是灵感，而每一份天马行空的想象，都值得被看见。
+        </p>
+        <div class="story-tags" aria-label="项目关键词">
+          <span>非遗新表达</span>
+          <span>儿童共创</span>
+          <span>AI 想象力</span>
+        </div>
+      </section>
+
+      <footer>
+        <p>WAKE THE LION · WAKE THE IMAGINATION</p>
+        <span>醒狮灵签 · 少年 AI 艺术共创</span>
+      </footer>
+    </main>
+    <script src="./app.js"></script>
+  </body>
+</html>
