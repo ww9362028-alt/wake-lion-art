@@ -129,5 +129,5 @@ function drawLion() {
 }
 
 const sprite = new Image();
-sprite.src = "./assets/lion-gallery-sprite.png";
+sprite.src = "./assets/lion-gallery-sprite.jpg";
 drawButton.addEventListener("click", drawLion);

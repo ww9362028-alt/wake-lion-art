@@ -433,7 +433,7 @@ p {
 }
 
 .lion-art {
-  background-image: url("./assets/lion-gallery-sprite.png");
+  background-image: url("./assets/lion-gallery-sprite.jpg");
   background-size: 300% 200%;
   background-repeat: no-repeat;
   animation: lionReveal 0.75s cubic-bezier(0.19, 0.78, 0.33, 1) both;
