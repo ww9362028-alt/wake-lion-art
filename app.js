@@ -65,14 +65,24 @@ const buttonLabel = document.querySelector(".button-label");
 let status = "idle";
 let selectedIndex = null;
 
-const mysteryMarkup = (glyph = "？") => `
-  <div class="mystery-art" aria-hidden="true">
-    <div class="mystery-rings">
-      <span class="mystery-eye eye-left"></span>
-      <span class="mystery-eye eye-right"></span>
-      <strong>${glyph}</strong>
+const drumMarkup = () => `
+  <div class="drum-cover" aria-hidden="true">
+    <div class="drum-stage">
+      <span class="drum-wave wave-one"></span>
+      <span class="drum-wave wave-two"></span>
+      <span class="drum-wave wave-three"></span>
+      <span class="drum-stick stick-left"></span>
+      <span class="drum-stick stick-right"></span>
+      <div class="festival-drum">
+        <div class="drum-head">
+          <span class="drum-emblem">醒</span>
+        </div>
+      </div>
     </div>
-    <div class="mystery-clouds">云 · 雷 · 鼓 · 舞</div>
+    <div class="drum-caption">
+      <span>击鼓唤狮</span>
+      <small>CLICK TO AWAKEN</small>
+    </div>
   </div>
   <div class="frame-line frame-line-top" aria-hidden="true"></div>
   <div class="frame-line frame-line-bottom" aria-hidden="true"></div>
@@ -88,7 +98,7 @@ function drawLion() {
   if (status === "drawing") return;
 
   setStatus("drawing");
-  artFrame.innerHTML = mysteryMarkup("醒");
+  artFrame.innerHTML = drumMarkup();
   resultCopy.innerHTML = `
     <p class="result-kicker">咚 · 咚 · 锵</p>
     <h2>灵狮正在赶来</h2>
