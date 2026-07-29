@@ -72,7 +72,7 @@ button {
 }
 
 .topbar {
-  width: min(1200px, calc(100% - 48px));
+  width: min(1500px, calc(100% - 48px));
   margin: 0 auto;
   padding: 18px 0 14px;
   display: flex;
@@ -146,21 +146,19 @@ button {
 }
 
 .hero {
-  width: min(1200px, calc(100% - 48px));
+  width: min(1500px, calc(100% - 48px));
   height: calc(100svh - 75px);
   min-height: 680px;
   margin: 0 auto;
   padding: 18px 0 24px;
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(420px, 0.78fr);
-  grid-template-rows: auto auto;
-  grid-template-areas:
-    "copy draw"
-    "story draw";
-  align-content: start;
-  align-items: start;
-  column-gap: clamp(60px, 8vw, 118px);
-  row-gap: 22px;
+  grid-template-columns:
+    minmax(180px, 1fr)
+    minmax(420px, 680px)
+    minmax(180px, 1fr);
+  grid-template-areas: "copy draw story";
+  align-items: center;
+  column-gap: clamp(18px, 2.4vw, 42px);
 }
 
 .hero-copy {
@@ -183,9 +181,9 @@ button {
   display: flex;
   align-items: center;
   gap: 12px;
-  margin-bottom: 25px;
+  margin-bottom: 18px;
   color: var(--red);
-  font-size: 12px;
+  font-size: 10px;
   font-weight: 800;
   letter-spacing: 0.2em;
 }
@@ -204,12 +202,12 @@ p {
 }
 
 .hero h1 {
-  max-width: 640px;
-  margin-bottom: 27px;
+  max-width: 350px;
+  margin-bottom: 19px;
   font-family: "Songti SC", "STSong", "SimSun", serif;
-  font-size: clamp(56px, 5.3vw, 78px);
+  font-size: clamp(36px, 3.5vw, 56px);
   font-weight: 800;
-  line-height: 1.06;
+  line-height: 1.08;
   letter-spacing: -0.055em;
 }
 
@@ -237,17 +235,18 @@ p {
 
 .hero-intro {
   color: #665c4e;
-  font-size: 16px;
-  line-height: 1.95;
+  font-size: 12px;
+  line-height: 1.72;
 }
 
 .mini-stats {
-  width: fit-content;
-  margin: 34px 0 29px;
-  padding: 18px 23px;
+  width: 100%;
+  margin: 22px 0 18px;
+  padding: 13px 12px;
   display: flex;
   align-items: center;
-  gap: 22px;
+  justify-content: space-around;
+  gap: 8px;
   border: 1px solid rgba(104, 83, 51, 0.18);
   border-radius: 3px;
   background: rgba(255, 251, 243, 0.42);
@@ -255,7 +254,7 @@ p {
 }
 
 .mini-stats > div:not(.stat-divider) {
-  min-width: 68px;
+  min-width: 0;
   display: grid;
   gap: 4px;
 }
@@ -263,13 +262,13 @@ p {
 .mini-stats strong {
   color: var(--red);
   font-family: Georgia, "Times New Roman", serif;
-  font-size: 24px;
+  font-size: 21px;
   line-height: 1;
 }
 
 .mini-stats span {
   color: #776c5d;
-  font-size: 10px;
+  font-size: 8px;
   letter-spacing: 0.12em;
 }
 
@@ -282,13 +281,13 @@ p {
 .culture-note {
   display: flex;
   align-items: center;
-  gap: 13px;
+  gap: 9px;
   color: var(--jade);
 }
 
 .knot {
-  width: 30px;
-  height: 30px;
+  width: 25px;
+  height: 25px;
   display: grid;
   place-items: center;
   border: 1px solid rgba(70, 107, 91, 0.35);
@@ -299,7 +298,7 @@ p {
 .culture-note p {
   margin: 0;
   font-family: "STKaiti", "KaiTi", serif;
-  font-size: 14px;
+  font-size: 11px;
   line-height: 1.55;
 }
 
@@ -310,7 +309,8 @@ p {
 .draw-stage {
   grid-area: draw;
   position: relative;
-  width: 100%;
+  width: min(100%, 680px, calc(100svh - 160px));
+  justify-self: center;
 }
 
 .draw-stage::before {
@@ -358,7 +358,15 @@ p {
 
 .draw-card {
   position: relative;
-  padding: 22px;
+  padding: 16px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(150px, 0.48fr);
+  grid-template-areas:
+    "heading heading"
+    "art art"
+    "result button"
+    "hint hint";
+  column-gap: 12px;
   border: 1px solid rgba(99, 72, 36, 0.3);
   border-radius: 8px;
   background:
@@ -410,7 +418,8 @@ p {
 }
 
 .card-heading {
-  padding: 4px 8px 16px;
+  grid-area: heading;
+  padding: 3px 7px 11px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -426,13 +435,16 @@ p {
 }
 
 .art-frame {
+  grid-area: art;
   position: relative;
-  aspect-ratio: 1 / 0.91;
+  aspect-ratio: 1;
   overflow: hidden;
-  border: 1px solid rgba(91, 66, 37, 0.22);
+  border: 1px solid rgba(91, 66, 37, 0.28);
   border-radius: 4px;
   background: #dbcaaa;
-  box-shadow: inset 0 0 0 5px rgba(255, 248, 231, 0.35);
+  box-shadow:
+    0 13px 32px rgba(67, 38, 18, 0.12),
+    inset 0 0 0 6px rgba(255, 248, 231, 0.42);
 }
 
 .lion-art,
@@ -684,42 +696,47 @@ p {
 }
 
 .result-copy {
-  min-height: 122px;
-  padding: 21px 10px 7px;
-  text-align: center;
+  grid-area: result;
+  min-width: 0;
+  min-height: 66px;
+  padding: 10px 4px 7px 7px;
+  text-align: left;
 }
 
 .result-kicker {
-  margin-bottom: 6px;
+  margin-bottom: 3px;
   color: var(--red);
-  font-size: 10px;
+  font-size: 8px;
   font-weight: 800;
   letter-spacing: 0.16em;
 }
 
 .result-copy h2 {
-  margin-bottom: 8px;
+  margin-bottom: 3px;
   font-family: "Songti SC", "STSong", serif;
-  font-size: 24px;
+  font-size: 20px;
   letter-spacing: 0.06em;
 }
 
 .result-copy > p:last-child {
-  max-width: 330px;
-  margin: 0 auto;
+  max-width: none;
+  margin: 0;
   color: #796e5f;
   font-family: "STKaiti", "KaiTi", serif;
-  font-size: 13px;
-  line-height: 1.6;
+  font-size: 10px;
+  line-height: 1.35;
 }
 
 .draw-button {
+  grid-area: button;
   position: relative;
   width: 100%;
-  min-height: 62px;
-  padding: 0 21px;
+  min-height: 66px;
+  height: calc(100% - 7px);
+  margin-top: 7px;
+  padding: 0 12px;
   display: grid;
-  grid-template-columns: 34px 1fr 34px;
+  grid-template-columns: 27px 1fr 22px;
   align-items: center;
   border: 0;
   border-radius: 4px;
@@ -728,7 +745,7 @@ p {
     var(--red);
   color: #fff7e5;
   cursor: pointer;
-  font-size: 15px;
+  font-size: 12px;
   font-weight: 800;
   letter-spacing: 0.18em;
   box-shadow:
@@ -761,8 +778,8 @@ p {
 
 .button-drum {
   position: relative;
-  width: 26px;
-  height: 26px;
+  width: 22px;
+  height: 22px;
   border: 2px solid #e4bb6b;
   border-radius: 50%;
 }
@@ -810,7 +827,8 @@ p {
 }
 
 .draw-hint {
-  margin: 12px 0 0;
+  grid-area: hint;
+  margin: 8px 0 0;
   color: #8a7d6b;
   text-align: center;
   font-size: 9px;
@@ -821,12 +839,11 @@ p {
   grid-area: story;
   width: 100%;
   margin: 0;
-  padding: 18px 21px;
-  display: grid;
-  grid-template-columns: minmax(165px, 0.72fr) minmax(0, 1.28fr);
-  grid-template-rows: auto auto;
-  align-items: start;
-  gap: 9px 22px;
+  padding: 20px 18px;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 13px;
   border: 1px solid rgba(87, 65, 41, 0.18);
   border-radius: 3px;
   background: rgba(255, 251, 243, 0.32);
@@ -834,7 +851,8 @@ p {
 }
 
 .story-title {
-  grid-row: 1 / 3;
+  padding-bottom: 12px;
+  border-bottom: 1px solid rgba(87, 65, 41, 0.15);
 }
 
 .story-title span {
@@ -853,8 +871,8 @@ p {
 .story-strip > p {
   margin: 0;
   color: #6d6254;
-  font-size: 11px;
-  line-height: 1.72;
+  font-size: 10px;
+  line-height: 1.68;
 }
 
 .story-tags {
@@ -981,17 +999,19 @@ footer p {
 
 @media (max-width: 980px) {
   .hero {
-    grid-template-columns: minmax(0, 1fr) minmax(375px, 0.9fr);
-    column-gap: 40px;
-    row-gap: 18px;
+    grid-template-columns:
+      minmax(155px, 0.8fr)
+      minmax(400px, 2fr)
+      minmax(145px, 0.72fr);
+    column-gap: 14px;
   }
 
   .hero h1 {
-    font-size: clamp(48px, 6vw, 62px);
+    font-size: clamp(32px, 4.3vw, 44px);
   }
 
   .story-strip {
-    grid-template-columns: minmax(145px, 0.7fr) minmax(0, 1.3fr);
+    padding: 16px 13px;
   }
 
   .story-tags {
@@ -1035,7 +1055,6 @@ footer p {
     height: calc(100svh - 54px);
     min-height: 620px;
     padding: 8px 0 12px;
-    row-gap: 12px;
   }
 
   .hero-copy::before {
@@ -1049,7 +1068,7 @@ footer p {
 
   .hero h1 {
     margin-bottom: 14px;
-    font-size: clamp(44px, 4.4vw, 60px);
+    font-size: clamp(30px, 3.6vw, 44px);
   }
 
   .hero h1 em {
@@ -1057,26 +1076,26 @@ footer p {
   }
 
   .hero-intro {
-    font-size: 13px;
+    font-size: 10px;
     line-height: 1.55;
   }
 
   .mini-stats {
-    margin: 14px 0 12px;
-    padding: 10px 16px;
+    margin: 12px 0 10px;
+    padding: 9px 6px;
   }
 
   .mini-stats strong {
-    font-size: 20px;
+    font-size: 17px;
   }
 
   .culture-note p {
-    font-size: 12px;
+    font-size: 9px;
   }
 
   .story-strip {
-    padding: 12px 16px;
-    gap: 6px 16px;
+    padding: 13px 11px;
+    gap: 8px;
   }
 
   .story-title h2 {
@@ -1084,7 +1103,7 @@ footer p {
   }
 
   .story-strip > p {
-    font-size: 10px;
+    font-size: 8px;
     line-height: 1.55;
   }
 
@@ -1094,20 +1113,22 @@ footer p {
   }
 
   .draw-card {
-    padding: 14px;
+    padding: 10px;
+    grid-template-columns: minmax(0, 1fr) minmax(130px, 0.52fr);
+    column-gap: 8px;
   }
 
   .card-heading {
-    padding: 2px 6px 8px;
+    padding: 1px 5px 7px;
   }
 
   .art-frame {
-    aspect-ratio: 1 / 0.76;
+    aspect-ratio: 1;
   }
 
   .result-copy {
-    min-height: 84px;
-    padding: 10px 8px 5px;
+    min-height: 54px;
+    padding: 7px 3px 3px 5px;
   }
 
   .result-kicker {
@@ -1116,21 +1137,25 @@ footer p {
   }
 
   .result-copy h2 {
-    margin-bottom: 4px;
-    font-size: 20px;
+    margin-bottom: 0;
+    font-size: 17px;
   }
 
   .result-copy > p:last-child {
-    font-size: 11px;
-    line-height: 1.35;
+    display: none;
   }
 
   .draw-button {
-    min-height: 48px;
+    min-height: 54px;
+    height: calc(100% - 5px);
+    margin-top: 5px;
+    padding: 0 8px;
+    grid-template-columns: 23px 1fr 18px;
+    font-size: 10px;
   }
 
   .draw-hint {
-    margin-top: 7px;
+    display: none;
   }
 }
 
@@ -1248,6 +1273,7 @@ footer p {
   }
 
   .draw-card {
+    display: block;
     padding: 17px;
   }
 
@@ -1256,11 +1282,32 @@ footer p {
   }
 
   .result-copy {
+    display: block;
     min-height: 125px;
+    padding: 21px 10px 7px;
+    text-align: center;
+  }
+
+  .result-copy > p:last-child {
+    display: block;
+    max-width: 330px;
+    margin: 0 auto;
+    font-size: 13px;
+    line-height: 1.6;
   }
 
   .draw-button {
     min-height: 58px;
+    height: auto;
+    margin-top: 0;
+    padding: 0 21px;
+    grid-template-columns: 34px 1fr 34px;
+    font-size: 15px;
+  }
+
+  .draw-hint {
+    display: block;
+    margin-top: 12px;
   }
 
   .cloud-one {
