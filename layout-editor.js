@@ -83,7 +83,31 @@
   const controlByKey = new Map(controls.map((control) => [control.key, control]));
   const root = document.documentElement;
   const editorEnabled = new URLSearchParams(window.location.search).get("edit") === "1";
+  const presentationWidth = 2048;
+  const presentationHeight = 1152;
   let state = { ...defaults };
+  let resizeFrame = 0;
+
+  const syncPresentationScale = () => {
+    window.cancelAnimationFrame(resizeFrame);
+    resizeFrame = window.requestAnimationFrame(() => {
+      if (window.innerWidth < 981) {
+        root.style.removeProperty("--presentation-scale");
+        return;
+      }
+
+      const scale = Math.min(
+        window.innerWidth / presentationWidth,
+        window.innerHeight / presentationHeight,
+      );
+      root.style.setProperty("--presentation-scale", scale.toFixed(6));
+    });
+  };
+
+  window.addEventListener("resize", syncPresentationScale, { passive: true });
+  document.addEventListener("fullscreenchange", syncPresentationScale);
+  document.addEventListener("webkitfullscreenchange", syncPresentationScale);
+  syncPresentationScale();
 
   try {
     const saved = JSON.parse(window.localStorage.getItem(STORAGE_KEY) || "null");
@@ -368,10 +392,20 @@
       const startY = event.clientY;
       const originX = state[`${key}X`];
       const originY = state[`${key}Y`];
+      const canvasScale = Math.max(
+        0.1,
+        Number.parseFloat(
+          root.style.getPropertyValue("--presentation-scale") || "1",
+        ),
+      );
 
       const move = (moveEvent) => {
-        state[`${key}X`] = Math.round(originX + moveEvent.clientX - startX);
-        state[`${key}Y`] = Math.round(originY + moveEvent.clientY - startY);
+        state[`${key}X`] = Math.round(
+          originX + (moveEvent.clientX - startX) / canvasScale,
+        );
+        state[`${key}Y`] = Math.round(
+          originY + (moveEvent.clientY - startY) / canvasScale,
+        );
         applyState();
         updatePanel();
       };
