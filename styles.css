@@ -72,7 +72,7 @@ button {
 }
 
 .topbar {
-  width: min(1500px, calc(100% - 48px));
+  width: min(1680px, calc(100% - 64px));
   margin: 0 auto;
   padding: 18px 0 14px;
   display: flex;
@@ -91,8 +91,8 @@ button {
 
 .brand-seal {
   display: grid;
-  width: 42px;
-  height: 42px;
+  width: 50px;
+  height: 50px;
   place-items: center;
   border-radius: 50%;
   border: 1px solid rgba(255, 255, 255, 0.45);
@@ -101,7 +101,7 @@ button {
   background: var(--red);
   color: #f9e8bd;
   font-family: "STKaiti", "KaiTi", serif;
-  font-size: 21px;
+  font-size: 25px;
   font-weight: 700;
   transform: rotate(-5deg);
   box-shadow: 0 7px 18px rgba(126, 29, 24, 0.17);
@@ -114,14 +114,14 @@ button {
 
 .brand-copy strong {
   font-family: "STKaiti", "KaiTi", serif;
-  font-size: 26px;
+  font-size: 31px;
   line-height: 1;
   letter-spacing: 0.14em;
 }
 
 .brand-copy small {
   color: var(--muted);
-  font-size: 10px;
+  font-size: 12px;
   font-weight: 700;
   letter-spacing: 0.27em;
 }
@@ -131,7 +131,7 @@ button {
   align-items: center;
   gap: 8px;
   color: #685e51;
-  font-size: 15px;
+  font-size: 18px;
   font-weight: 600;
   letter-spacing: 0.1em;
 }
@@ -146,27 +146,30 @@ button {
 }
 
 .hero {
-  width: min(1500px, calc(100% - 48px));
+  width: min(1680px, calc(100% - 64px));
   height: calc(100svh - 75px);
   min-height: 680px;
   margin: 0 auto;
   padding: 18px 0 24px;
   display: grid;
-  grid-template-columns: minmax(400px, 0.78fr) minmax(500px, 1.22fr);
-  grid-template-rows: auto auto;
-  grid-template-areas:
-    "copy draw"
-    "story draw";
+  grid-template-columns: minmax(560px, 0.94fr) minmax(560px, 1.06fr);
+  grid-template-areas: "info draw";
   align-content: center;
-  align-items: start;
-  column-gap: clamp(38px, 5vw, 82px);
-  row-gap: 22px;
+  align-items: center;
+  column-gap: clamp(40px, 4.5vw, 78px);
+}
+
+.info-panel {
+  grid-area: info;
+  min-width: 0;
+  display: grid;
+  align-self: center;
+  gap: clamp(24px, 2.8vh, 38px);
 }
 
 .hero-copy {
-  grid-area: copy;
   position: relative;
-  padding-left: 22px;
+  padding-left: 28px;
 }
 
 .hero-copy::before {
@@ -174,18 +177,18 @@ button {
   position: absolute;
   left: 0;
   top: 4px;
-  width: 2px;
-  height: 128px;
+  width: 3px;
+  height: 172px;
   background: linear-gradient(var(--red), var(--gold), transparent);
 }
 
 .eyebrow {
   display: flex;
   align-items: center;
-  gap: 12px;
-  margin-bottom: 22px;
+  gap: 15px;
+  margin-bottom: 26px;
   color: var(--red);
-  font-size: 14px;
+  font-size: 18px;
   font-weight: 800;
   letter-spacing: 0.2em;
 }
@@ -204,10 +207,10 @@ p {
 }
 
 .hero h1 {
-  max-width: 620px;
-  margin-bottom: 24px;
+  max-width: 800px;
+  margin-bottom: 30px;
   font-family: "Songti SC", "STSong", "SimSun", serif;
-  font-size: clamp(54px, 5vw, 76px);
+  font-size: clamp(72px, 5.45vw, 104px);
   font-weight: 800;
   line-height: 1.08;
   letter-spacing: -0.055em;
@@ -217,7 +220,7 @@ p {
   position: relative;
   display: block;
   width: max-content;
-  margin-top: 8px;
+  margin-top: 10px;
   color: var(--red);
   font-style: normal;
 }
@@ -237,14 +240,14 @@ p {
 
 .hero-intro {
   color: #665c4e;
-  font-size: 18px;
-  line-height: 1.78;
+  font-size: 23px;
+  line-height: 1.72;
 }
 
 .mini-stats {
   width: 100%;
-  margin: 25px 0 20px;
-  padding: 17px 15px;
+  margin: 31px 0 25px;
+  padding: 23px 18px;
   display: flex;
   align-items: center;
   justify-content: space-around;
@@ -258,49 +261,49 @@ p {
 .mini-stats > div:not(.stat-divider) {
   min-width: 0;
   display: grid;
-  gap: 4px;
+  gap: 8px;
 }
 
 .mini-stats strong {
   color: var(--red);
   font-family: Georgia, "Times New Roman", serif;
-  font-size: 30px;
+  font-size: 40px;
   line-height: 1;
 }
 
 .mini-stats span {
   color: #776c5d;
-  font-size: 12px;
+  font-size: 15px;
   letter-spacing: 0.12em;
 }
 
 .mini-stats .stat-divider {
   width: 1px;
-  height: 34px;
+  height: 50px;
   background: rgba(104, 83, 51, 0.22);
 }
 
 .culture-note {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 16px;
   color: var(--jade);
 }
 
 .knot {
-  width: 34px;
-  height: 34px;
+  width: 46px;
+  height: 46px;
   display: grid;
   place-items: center;
   border: 1px solid rgba(70, 107, 91, 0.35);
   border-radius: 50%;
-  font-size: 11px;
+  font-size: 14px;
 }
 
 .culture-note p {
   margin: 0;
   font-family: "STKaiti", "KaiTi", serif;
-  font-size: 16px;
+  font-size: 20px;
   line-height: 1.55;
 }
 
@@ -311,7 +314,7 @@ p {
 .draw-stage {
   grid-area: draw;
   position: relative;
-  width: min(100%, 720px, calc(100svh - 150px));
+  width: min(100%, 800px, calc(100svh - 125px));
   align-self: center;
   justify-self: end;
 }
@@ -361,15 +364,15 @@ p {
 
 .draw-card {
   position: relative;
-  padding: 16px;
+  padding: 18px;
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(150px, 0.48fr);
+  grid-template-columns: minmax(0, 1fr) minmax(190px, 0.5fr);
   grid-template-areas:
     "heading heading"
     "art art"
     "result button"
     "hint hint";
-  column-gap: 12px;
+  column-gap: 16px;
   border: 1px solid rgba(99, 72, 36, 0.3);
   border-radius: 8px;
   background:
@@ -422,19 +425,19 @@ p {
 
 .card-heading {
   grid-area: heading;
-  padding: 3px 7px 11px;
+  padding: 4px 8px 13px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   color: #76684f;
-  font-size: 12px;
+  font-size: 15px;
   font-weight: 800;
   letter-spacing: 0.16em;
 }
 
 .card-diamond {
   color: var(--gold);
-  font-size: 10px;
+  font-size: 12px;
 }
 
 .art-frame {
@@ -636,14 +639,14 @@ p {
 
 .drum-caption span {
   font-family: "STKaiti", "KaiTi", serif;
-  font-size: 14px;
+  font-size: 18px;
   font-weight: 700;
   white-space: nowrap;
 }
 
 .drum-caption small {
   color: rgba(91, 62, 35, 0.62);
-  font-size: 7px;
+  font-size: 9px;
   letter-spacing: 0.24em;
   white-space: nowrap;
 }
@@ -701,15 +704,15 @@ p {
 .result-copy {
   grid-area: result;
   min-width: 0;
-  min-height: 76px;
-  padding: 12px 5px 8px 8px;
+  min-height: 92px;
+  padding: 15px 6px 9px 9px;
   text-align: left;
 }
 
 .result-kicker {
   margin-bottom: 3px;
   color: var(--red);
-  font-size: 11px;
+  font-size: 13px;
   font-weight: 800;
   letter-spacing: 0.16em;
 }
@@ -717,7 +720,7 @@ p {
 .result-copy h2 {
   margin-bottom: 3px;
   font-family: "Songti SC", "STSong", serif;
-  font-size: 27px;
+  font-size: 33px;
   letter-spacing: 0.06em;
 }
 
@@ -726,20 +729,20 @@ p {
   margin: 0;
   color: #796e5f;
   font-family: "STKaiti", "KaiTi", serif;
-  font-size: 14px;
-  line-height: 1.45;
+  font-size: 17px;
+  line-height: 1.5;
 }
 
 .draw-button {
   grid-area: button;
   position: relative;
   width: 100%;
-  min-height: 76px;
+  min-height: 92px;
   height: calc(100% - 7px);
   margin-top: 7px;
   padding: 0 12px;
   display: grid;
-  grid-template-columns: 27px 1fr 22px;
+  grid-template-columns: 34px 1fr 26px;
   align-items: center;
   border: 0;
   border-radius: 4px;
@@ -748,7 +751,7 @@ p {
     var(--red);
   color: #fff7e5;
   cursor: pointer;
-  font-size: 16px;
+  font-size: 20px;
   font-weight: 800;
   letter-spacing: 0.18em;
   box-shadow:
@@ -781,8 +784,8 @@ p {
 
 .button-drum {
   position: relative;
-  width: 22px;
-  height: 22px;
+  width: 28px;
+  height: 28px;
   border: 2px solid #e4bb6b;
   border-radius: 50%;
 }
@@ -825,29 +828,28 @@ p {
 
 .button-arrow {
   justify-self: end;
-  font-size: 18px;
+  font-size: 23px;
   font-weight: 400;
 }
 
 .draw-hint {
   grid-area: hint;
-  margin: 8px 0 0;
+  margin: 11px 0 1px;
   color: #8a7d6b;
   text-align: center;
-  font-size: 11px;
+  font-size: 13px;
   letter-spacing: 0.08em;
 }
 
 .story-strip {
-  grid-area: story;
   width: 100%;
   margin: 0;
-  padding: 19px 21px;
+  padding: 27px 28px;
   display: grid;
-  grid-template-columns: minmax(175px, 0.84fr) minmax(0, 1.16fr);
+  grid-template-columns: minmax(235px, 0.82fr) minmax(0, 1.18fr);
   grid-template-rows: auto auto;
   align-items: start;
-  gap: 11px 22px;
+  gap: 15px 28px;
   border: 1px solid rgba(87, 65, 41, 0.18);
   border-radius: 3px;
   background: rgba(255, 251, 243, 0.32);
@@ -856,43 +858,44 @@ p {
 
 .story-title {
   grid-row: 1 / 3;
-  padding: 0 20px 0 0;
+  padding: 0 28px 0 0;
   border-right: 1px solid rgba(87, 65, 41, 0.15);
 }
 
 .story-title span {
   color: var(--red);
-  font-size: 11px;
+  font-size: 13px;
   font-weight: 800;
   letter-spacing: 0.22em;
 }
 
 .story-title h2 {
-  margin: 6px 0 0;
+  margin: 9px 0 0;
   font-family: "Songti SC", "STSong", serif;
-  font-size: 24px;
+  font-size: 32px;
+  line-height: 1.28;
 }
 
 .story-strip > p {
   margin: 0;
   color: #6d6254;
-  font-size: 14px;
-  line-height: 1.7;
+  font-size: 18px;
+  line-height: 1.72;
 }
 
 .story-tags {
   display: flex;
-  gap: 7px;
+  gap: 10px;
   flex-wrap: wrap;
   justify-content: flex-start;
 }
 
 .story-tags span {
-  padding: 7px 10px;
+  padding: 9px 13px;
   border: 1px solid rgba(70, 107, 91, 0.32);
   border-radius: 99px;
   color: var(--jade);
-  font-size: 11px;
+  font-size: 13px;
   white-space: nowrap;
 }
 
@@ -1005,15 +1008,12 @@ footer p {
 @media (max-width: 980px) {
   .hero {
     grid-template-columns: minmax(350px, 0.82fr) minmax(400px, 1.18fr);
-    grid-template-areas:
-      "copy draw"
-      "story draw";
+    grid-template-areas: "info draw";
     column-gap: 28px;
-    row-gap: 17px;
   }
 
   .hero h1 {
-    font-size: clamp(48px, 6vw, 60px);
+    font-size: clamp(54px, 6.4vw, 66px);
   }
 
   .story-strip {
@@ -1070,11 +1070,14 @@ footer p {
     height: calc(100svh - 54px);
     min-height: 620px;
     padding: 8px 0 12px;
-    row-gap: 14px;
+  }
+
+  .info-panel {
+    gap: 16px;
   }
 
   .draw-stage {
-    width: min(100%, 720px, calc(100svh - 175px));
+    width: min(100%, 760px, calc(100svh - 145px));
   }
 
   .hero-copy::before {
@@ -1082,13 +1085,13 @@ footer p {
   }
 
   .eyebrow {
-    margin-bottom: 13px;
-    font-size: 12px;
+    margin-bottom: 15px;
+    font-size: 14px;
   }
 
   .hero h1 {
-    margin-bottom: 14px;
-    font-size: clamp(42px, 4.8vw, 56px);
+    margin-bottom: 16px;
+    font-size: clamp(48px, 5.1vw, 62px);
   }
 
   .hero h1 em {
@@ -1096,48 +1099,48 @@ footer p {
   }
 
   .hero-intro {
-    font-size: 14px;
+    font-size: 16px;
     line-height: 1.62;
   }
 
   .mini-stats {
-    margin: 14px 0 12px;
-    padding: 11px 8px;
+    margin: 16px 0 14px;
+    padding: 13px 9px;
   }
 
   .mini-stats strong {
-    font-size: 24px;
+    font-size: 28px;
   }
 
   .mini-stats span {
-    font-size: 10px;
+    font-size: 11px;
   }
 
   .culture-note p {
-    font-size: 12px;
+    font-size: 14px;
   }
 
   .story-strip {
-    padding: 12px 14px;
-    gap: 7px 14px;
+    padding: 15px 17px;
+    gap: 9px 17px;
   }
 
   .story-title span {
-    font-size: 8px;
+    font-size: 9px;
   }
 
   .story-title h2 {
-    font-size: 20px;
+    font-size: 23px;
   }
 
   .story-strip > p {
-    font-size: 11px;
+    font-size: 12px;
     line-height: 1.55;
   }
 
   .story-tags span {
-    padding: 5px 8px;
-    font-size: 9px;
+    padding: 6px 9px;
+    font-size: 10px;
   }
 
   .draw-card {
@@ -1167,12 +1170,12 @@ footer p {
 
   .result-copy h2 {
     margin-bottom: 0;
-    font-size: 22px;
+    font-size: 24px;
   }
 
   .result-copy > p:last-child {
     display: block;
-    font-size: 11px;
+    font-size: 12px;
     line-height: 1.35;
   }
 
@@ -1182,7 +1185,7 @@ footer p {
     margin-top: 5px;
     padding: 0 8px;
     grid-template-columns: 23px 1fr 18px;
-    font-size: 13px;
+    font-size: 15px;
   }
 
   .draw-hint {
@@ -1228,10 +1231,13 @@ footer p {
     grid-template-columns: 1fr;
     grid-template-rows: auto;
     grid-template-areas:
-      "copy"
-      "story"
+      "info"
       "draw";
     gap: 51px;
+  }
+
+  .info-panel {
+    gap: 30px;
   }
 
   .hero-copy {
@@ -1351,7 +1357,7 @@ footer p {
 
   .story-strip {
     width: 100%;
-    margin: -12px 0 0;
+    margin: 0;
     padding: 27px 20px;
     grid-template-columns: 1fr;
     grid-template-rows: auto;

@@ -64,6 +64,7 @@ const buttonLabel = document.querySelector(".button-label");
 
 let status = "idle";
 let selectedIndex = null;
+let audioContext = null;
 
 const drumMarkup = () => `
   <div class="drum-cover" aria-hidden="true">
@@ -94,9 +95,70 @@ function setStatus(nextStatus) {
   drawButton.disabled = status === "drawing";
 }
 
+function playDrumSequence() {
+  try {
+    if (!audioContext) {
+      audioContext = new AudioContext();
+    }
+
+    const play = () => {
+      const strike = (delay, startFrequency, volume) => {
+        const now = audioContext.currentTime + delay;
+        const oscillator = audioContext.createOscillator();
+        const gain = audioContext.createGain();
+        const filter = audioContext.createBiquadFilter();
+
+        oscillator.type = "sine";
+        oscillator.frequency.setValueAtTime(startFrequency, now);
+        oscillator.frequency.exponentialRampToValueAtTime(46, now + 0.34);
+        filter.type = "lowpass";
+        filter.frequency.setValueAtTime(620, now);
+        gain.gain.setValueAtTime(volume, now);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.42);
+
+        oscillator.connect(filter);
+        filter.connect(gain);
+        gain.connect(audioContext.destination);
+        oscillator.start(now);
+        oscillator.stop(now + 0.44);
+      };
+
+      const gong = (delay) => {
+        const now = audioContext.currentTime + delay;
+        [196, 294, 412].forEach((frequency, index) => {
+          const oscillator = audioContext.createOscillator();
+          const gain = audioContext.createGain();
+          oscillator.type = index === 0 ? "triangle" : "sine";
+          oscillator.frequency.setValueAtTime(frequency, now);
+          gain.gain.setValueAtTime(0.12 / (index + 1), now);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + 0.72);
+          oscillator.connect(gain);
+          gain.connect(audioContext.destination);
+          oscillator.start(now);
+          oscillator.stop(now + 0.75);
+        });
+      };
+
+      strike(0.02, 132, 0.62);
+      strike(0.34, 116, 0.54);
+      strike(0.68, 148, 0.68);
+      gong(0.82);
+    };
+
+    if (audioContext.state === "suspended") {
+      audioContext.resume().then(play);
+    } else {
+      play();
+    }
+  } catch {
+    // The visual interaction still works if a browser blocks Web Audio.
+  }
+}
+
 function drawLion() {
   if (status === "drawing") return;
 
+  playDrumSequence();
   setStatus("drawing");
   artFrame.innerHTML = drumMarkup();
   resultCopy.innerHTML = `
