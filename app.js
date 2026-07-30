@@ -102,47 +102,100 @@ function playDrumSequence() {
     }
 
     const play = () => {
-      const strike = (delay, startFrequency, volume) => {
-        const now = audioContext.currentTime + delay;
-        const oscillator = audioContext.createOscillator();
-        const gain = audioContext.createGain();
-        const filter = audioContext.createBiquadFilter();
-
-        oscillator.type = "sine";
-        oscillator.frequency.setValueAtTime(startFrequency, now);
-        oscillator.frequency.exponentialRampToValueAtTime(46, now + 0.34);
-        filter.type = "lowpass";
-        filter.frequency.setValueAtTime(620, now);
-        gain.gain.setValueAtTime(volume, now);
-        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.42);
-
-        oscillator.connect(filter);
-        filter.connect(gain);
-        gain.connect(audioContext.destination);
-        oscillator.start(now);
-        oscillator.stop(now + 0.44);
+      const makeNoiseBuffer = (duration) => {
+        const frameCount = Math.floor(audioContext.sampleRate * duration);
+        const buffer = audioContext.createBuffer(
+          1,
+          frameCount,
+          audioContext.sampleRate,
+        );
+        const data = buffer.getChannelData(0);
+        for (let index = 0; index < frameCount; index += 1) {
+          const decay = 1 - index / frameCount;
+          data[index] = (Math.random() * 2 - 1) * decay * decay;
+        }
+        return buffer;
       };
 
-      const gong = (delay) => {
+      const lionDrum = (delay, volume) => {
         const now = audioContext.currentTime + delay;
-        [196, 294, 412].forEach((frequency, index) => {
+        const master = audioContext.createGain();
+        master.gain.setValueAtTime(volume, now);
+        master.gain.exponentialRampToValueAtTime(0.001, now + 0.36);
+        master.connect(audioContext.destination);
+
+        const skin = audioContext.createOscillator();
+        skin.type = "sine";
+        skin.frequency.setValueAtTime(178, now);
+        skin.frequency.exponentialRampToValueAtTime(54, now + 0.18);
+        skin.connect(master);
+        skin.start(now);
+        skin.stop(now + 0.38);
+
+        const body = audioContext.createOscillator();
+        const bodyGain = audioContext.createGain();
+        body.type = "triangle";
+        body.frequency.setValueAtTime(82, now);
+        body.frequency.exponentialRampToValueAtTime(49, now + 0.3);
+        bodyGain.gain.setValueAtTime(0.42, now);
+        bodyGain.gain.exponentialRampToValueAtTime(0.001, now + 0.34);
+        body.connect(bodyGain);
+        bodyGain.connect(master);
+        body.start(now);
+        body.stop(now + 0.38);
+
+        const slap = audioContext.createBufferSource();
+        const slapFilter = audioContext.createBiquadFilter();
+        const slapGain = audioContext.createGain();
+        slap.buffer = makeNoiseBuffer(0.12);
+        slapFilter.type = "bandpass";
+        slapFilter.frequency.setValueAtTime(760, now);
+        slapFilter.Q.value = 0.7;
+        slapGain.gain.setValueAtTime(0.34, now);
+        slapGain.gain.exponentialRampToValueAtTime(0.001, now + 0.11);
+        slap.connect(slapFilter);
+        slapFilter.connect(slapGain);
+        slapGain.connect(audioContext.destination);
+        slap.start(now);
+      };
+
+      const lionCymbal = (delay, volume) => {
+        const now = audioContext.currentTime + delay;
+        const noise = audioContext.createBufferSource();
+        const highpass = audioContext.createBiquadFilter();
+        const noiseGain = audioContext.createGain();
+        noise.buffer = makeNoiseBuffer(0.72);
+        highpass.type = "highpass";
+        highpass.frequency.setValueAtTime(1750, now);
+        noiseGain.gain.setValueAtTime(volume, now);
+        noiseGain.gain.exponentialRampToValueAtTime(0.001, now + 0.7);
+        noise.connect(highpass);
+        highpass.connect(noiseGain);
+        noiseGain.connect(audioContext.destination);
+        noise.start(now);
+
+        [487, 733, 1099, 1471].forEach((frequency, index) => {
           const oscillator = audioContext.createOscillator();
           const gain = audioContext.createGain();
-          oscillator.type = index === 0 ? "triangle" : "sine";
+          oscillator.type = "square";
           oscillator.frequency.setValueAtTime(frequency, now);
-          gain.gain.setValueAtTime(0.12 / (index + 1), now);
-          gain.gain.exponentialRampToValueAtTime(0.001, now + 0.72);
+          gain.gain.setValueAtTime((volume * 0.11) / (index + 1), now);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + 0.5);
           oscillator.connect(gain);
           gain.connect(audioContext.destination);
           oscillator.start(now);
-          oscillator.stop(now + 0.75);
+          oscillator.stop(now + 0.52);
         });
       };
 
-      strike(0.02, 132, 0.62);
-      strike(0.34, 116, 0.54);
-      strike(0.68, 148, 0.68);
-      gong(0.82);
+      lionDrum(0.02, 0.64);
+      lionDrum(0.2, 0.56);
+      lionDrum(0.43, 0.72);
+      lionCymbal(0.46, 0.17);
+      lionDrum(0.69, 0.58);
+      lionDrum(0.84, 0.62);
+      lionDrum(1.03, 0.78);
+      lionCymbal(1.08, 0.24);
     };
 
     if (audioContext.state === "suspended") {
@@ -162,7 +215,7 @@ function drawLion() {
   setStatus("drawing");
   artFrame.innerHTML = drumMarkup();
   resultCopy.innerHTML = `
-    <p class="result-kicker">咚 · 咚 · 锵</p>
+    <p class="result-kicker">咚咚 · 咚锵 · 咚咚锵</p>
     <h2>灵狮正在赶来</h2>
     <p>循着鼓点，遇见这一刻的缘分</p>
   `;
@@ -197,7 +250,7 @@ function drawLion() {
     buttonLabel.textContent = "再遇一只灵狮";
     drawButton.setAttribute("aria-label", "再抽一只专属狮头");
     setStatus("revealed");
-  }, 1100);
+  }, 1500);
 }
 
 const sprite = new Image();

@@ -91,8 +91,8 @@ button {
 
 .brand-seal {
   display: grid;
-  width: 50px;
-  height: 50px;
+  width: 58px;
+  height: 58px;
   place-items: center;
   border-radius: 50%;
   border: 1px solid rgba(255, 255, 255, 0.45);
@@ -101,7 +101,7 @@ button {
   background: var(--red);
   color: #f9e8bd;
   font-family: "STKaiti", "KaiTi", serif;
-  font-size: 25px;
+  font-size: 29px;
   font-weight: 700;
   transform: rotate(-5deg);
   box-shadow: 0 7px 18px rgba(126, 29, 24, 0.17);
@@ -114,14 +114,14 @@ button {
 
 .brand-copy strong {
   font-family: "STKaiti", "KaiTi", serif;
-  font-size: 31px;
+  font-size: 40px;
   line-height: 1;
   letter-spacing: 0.14em;
 }
 
 .brand-copy small {
   color: var(--muted);
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 700;
   letter-spacing: 0.27em;
 }
@@ -131,7 +131,7 @@ button {
   align-items: center;
   gap: 8px;
   color: #685e51;
-  font-size: 18px;
+  font-size: 24px;
   font-weight: 600;
   letter-spacing: 0.1em;
 }
@@ -147,7 +147,7 @@ button {
 
 .hero {
   width: min(1680px, calc(100% - 64px));
-  height: calc(100svh - 75px);
+  height: calc(100svh - 90px);
   min-height: 680px;
   margin: 0 auto;
   padding: 18px 0 24px;
@@ -164,7 +164,7 @@ button {
   min-width: 0;
   display: grid;
   align-self: center;
-  gap: clamp(24px, 2.8vh, 38px);
+  gap: clamp(25px, 3vh, 40px);
 }
 
 .hero-copy {
@@ -291,19 +291,19 @@ p {
 }
 
 .knot {
-  width: 46px;
-  height: 46px;
+  width: 52px;
+  height: 52px;
   display: grid;
   place-items: center;
   border: 1px solid rgba(70, 107, 91, 0.35);
   border-radius: 50%;
-  font-size: 14px;
+  font-size: 16px;
 }
 
 .culture-note p {
   margin: 0;
   font-family: "STKaiti", "KaiTi", serif;
-  font-size: 20px;
+  font-size: 25px;
   line-height: 1.55;
 }
 
@@ -430,14 +430,14 @@ p {
   align-items: center;
   justify-content: space-between;
   color: #76684f;
-  font-size: 15px;
+  font-size: 20px;
   font-weight: 800;
   letter-spacing: 0.16em;
 }
 
 .card-diamond {
   color: var(--gold);
-  font-size: 12px;
+  font-size: 15px;
 }
 
 .art-frame {
@@ -669,19 +669,19 @@ p {
 }
 
 .is-drawing .stick-left {
-  animation: strikeLeft 0.54s cubic-bezier(0.42, 0, 0.34, 1) 2;
+  animation: strikeLeft 0.54s cubic-bezier(0.42, 0, 0.34, 1) 3;
 }
 
 .is-drawing .stick-right {
-  animation: strikeRight 0.54s 0.18s cubic-bezier(0.42, 0, 0.34, 1) 2;
+  animation: strikeRight 0.54s 0.18s cubic-bezier(0.42, 0, 0.34, 1) 3;
 }
 
 .is-drawing .festival-drum {
-  animation: drumImpact 0.27s ease-out 4;
+  animation: drumImpact 0.27s ease-out 6;
 }
 
 .is-drawing .drum-head {
-  animation: drumGlow 0.27s ease-out 4;
+  animation: drumGlow 0.27s ease-out 6;
 }
 
 .is-drawing .drum-wave {
@@ -698,21 +698,21 @@ p {
 }
 
 .is-drawing .drum-caption span {
-  animation: captionBeat 0.27s ease-out 4;
+  animation: captionBeat 0.27s ease-out 6;
 }
 
 .result-copy {
   grid-area: result;
   min-width: 0;
-  min-height: 92px;
-  padding: 15px 6px 9px 9px;
+  min-height: 112px;
+  padding: 17px 7px 11px 10px;
   text-align: left;
 }
 
 .result-kicker {
   margin-bottom: 3px;
   color: var(--red);
-  font-size: 13px;
+  font-size: 18px;
   font-weight: 800;
   letter-spacing: 0.16em;
 }
@@ -720,7 +720,7 @@ p {
 .result-copy h2 {
   margin-bottom: 3px;
   font-family: "Songti SC", "STSong", serif;
-  font-size: 33px;
+  font-size: 44px;
   letter-spacing: 0.06em;
 }
 
@@ -729,7 +729,7 @@ p {
   margin: 0;
   color: #796e5f;
   font-family: "STKaiti", "KaiTi", serif;
-  font-size: 17px;
+  font-size: 22px;
   line-height: 1.5;
 }
 
@@ -737,7 +737,7 @@ p {
   grid-area: button;
   position: relative;
   width: 100%;
-  min-height: 92px;
+  min-height: 112px;
   height: calc(100% - 7px);
   margin-top: 7px;
   padding: 0 12px;
@@ -751,7 +751,7 @@ p {
     var(--red);
   color: #fff7e5;
   cursor: pointer;
-  font-size: 20px;
+  font-size: 23px;
   font-weight: 800;
   letter-spacing: 0.18em;
   box-shadow:
@@ -837,65 +837,26 @@ p {
   margin: 11px 0 1px;
   color: #8a7d6b;
   text-align: center;
-  font-size: 13px;
+  font-size: 15px;
   letter-spacing: 0.08em;
 }
 
-.story-strip {
-  width: 100%;
-  margin: 0;
-  padding: 27px 28px;
-  display: grid;
-  grid-template-columns: minmax(235px, 0.82fr) minmax(0, 1.18fr);
-  grid-template-rows: auto auto;
-  align-items: start;
-  gap: 15px 28px;
-  border: 1px solid rgba(87, 65, 41, 0.18);
-  border-radius: 3px;
-  background: rgba(255, 251, 243, 0.32);
-  box-shadow: inset 0 0 24px rgba(255, 255, 255, 0.28);
-}
-
-.story-title {
-  grid-row: 1 / 3;
-  padding: 0 28px 0 0;
-  border-right: 1px solid rgba(87, 65, 41, 0.15);
-}
-
-.story-title span {
-  color: var(--red);
-  font-size: 13px;
-  font-weight: 800;
-  letter-spacing: 0.22em;
-}
-
-.story-title h2 {
-  margin: 9px 0 0;
-  font-family: "Songti SC", "STSong", serif;
-  font-size: 32px;
-  line-height: 1.28;
-}
-
-.story-strip > p {
-  margin: 0;
-  color: #6d6254;
-  font-size: 18px;
-  line-height: 1.72;
-}
-
-.story-tags {
+.heritage-tags {
   display: flex;
-  gap: 10px;
+  gap: 14px;
   flex-wrap: wrap;
   justify-content: flex-start;
 }
 
-.story-tags span {
-  padding: 9px 13px;
-  border: 1px solid rgba(70, 107, 91, 0.32);
+.heritage-tags span {
+  padding: 12px 18px;
+  border: 2px solid rgba(70, 107, 91, 0.34);
   border-radius: 99px;
+  background: rgba(255, 251, 243, 0.38);
   color: var(--jade);
-  font-size: 13px;
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
   white-space: nowrap;
 }
 
@@ -1016,13 +977,9 @@ footer p {
     font-size: clamp(54px, 6.4vw, 66px);
   }
 
-  .story-strip {
-    grid-template-columns: minmax(145px, 0.72fr) minmax(0, 1.28fr);
-    padding: 16px;
-  }
-
-  .story-tags {
-    display: none;
+  .heritage-tags span {
+    padding: 10px 14px;
+    font-size: 15px;
   }
 }
 
@@ -1055,15 +1012,15 @@ footer p {
   }
 
   .brand-copy strong {
-    font-size: 22px;
+    font-size: 28px;
   }
 
   .brand-copy small {
-    font-size: 8px;
+    font-size: 10px;
   }
 
   .project-badge {
-    font-size: 12px;
+    font-size: 16px;
   }
 
   .hero {
@@ -1117,30 +1074,16 @@ footer p {
   }
 
   .culture-note p {
-    font-size: 14px;
+    font-size: 17px;
   }
 
-  .story-strip {
-    padding: 15px 17px;
-    gap: 9px 17px;
+  .heritage-tags {
+    gap: 8px;
   }
 
-  .story-title span {
-    font-size: 9px;
-  }
-
-  .story-title h2 {
-    font-size: 23px;
-  }
-
-  .story-strip > p {
+  .heritage-tags span {
+    padding: 7px 10px;
     font-size: 12px;
-    line-height: 1.55;
-  }
-
-  .story-tags span {
-    padding: 6px 9px;
-    font-size: 10px;
   }
 
   .draw-card {
@@ -1151,7 +1094,7 @@ footer p {
 
   .card-heading {
     padding: 1px 5px 7px;
-    font-size: 10px;
+    font-size: 13px;
   }
 
   .art-frame {
@@ -1165,17 +1108,17 @@ footer p {
 
   .result-kicker {
     margin-bottom: 3px;
-    font-size: 10px;
+    font-size: 12px;
   }
 
   .result-copy h2 {
     margin-bottom: 0;
-    font-size: 24px;
+    font-size: 28px;
   }
 
   .result-copy > p:last-child {
     display: block;
-    font-size: 12px;
+    font-size: 14px;
     line-height: 1.35;
   }
 
@@ -1211,11 +1154,11 @@ footer p {
   }
 
   .brand-copy strong {
-    font-size: 18px;
+    font-size: 22px;
   }
 
   .project-badge {
-    font-size: 9px;
+    font-size: 11px;
     letter-spacing: 0.04em;
   }
 
@@ -1291,7 +1234,7 @@ footer p {
   }
 
   .culture-note p {
-    font-size: 13px;
+    font-size: 16px;
   }
 
   .draw-stage {
@@ -1355,23 +1298,12 @@ footer p {
     right: -27px;
   }
 
-  .story-strip {
-    width: 100%;
-    margin: 0;
-    padding: 27px 20px;
-    grid-template-columns: 1fr;
-    grid-template-rows: auto;
-    gap: 16px;
+  .heritage-tags {
+    gap: 8px;
   }
 
-  .story-title {
-    grid-row: auto;
-    padding: 0 0 12px;
-    border-right: 0;
-    border-bottom: 1px solid rgba(90, 69, 48, 0.18);
-  }
-
-  .story-strip > p {
+  .heritage-tags span {
+    padding: 8px 11px;
     font-size: 12px;
   }
 
