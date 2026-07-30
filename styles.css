@@ -8,6 +8,18 @@
   --gold: #c9953a;
   --gold-light: #e2bd72;
   --jade: #466b5b;
+  --editor-leftX: 3px;
+  --editor-leftY: -52px;
+  --editor-leftScale: 1.14;
+  --editor-rightX: 0px;
+  --editor-rightY: 0px;
+  --editor-rightScale: 1;
+  --editor-brandX: 2px;
+  --editor-brandY: -5px;
+  --editor-brandScale: 1.17;
+  --editor-badgeX: -27px;
+  --editor-badgeY: -14px;
+  --editor-badgeScale: 1.17;
 }
 
 * {
@@ -1370,28 +1382,28 @@ footer p {
 }
 
 @media (min-width: 761px) {
-  html:is(.layout-customized, .layout-editor-active) .info-panel {
+  html .info-panel {
     transform:
       translate3d(var(--editor-leftX, 0px), var(--editor-leftY, 0px), 0)
       scale(var(--editor-leftScale, 1));
     transform-origin: left center;
   }
 
-  html:is(.layout-customized, .layout-editor-active) .draw-stage {
+  html .draw-stage {
     transform:
       translate3d(var(--editor-rightX, 0px), var(--editor-rightY, 0px), 0)
       scale(var(--editor-rightScale, 1));
     transform-origin: right center;
   }
 
-  html:is(.layout-customized, .layout-editor-active) .brand {
+  html .brand {
     transform:
       translate3d(var(--editor-brandX, 0px), var(--editor-brandY, 0px), 0)
       scale(var(--editor-brandScale, 1));
     transform-origin: left top;
   }
 
-  html:is(.layout-customized, .layout-editor-active) .project-badge {
+  html .project-badge {
     transform:
       translate3d(var(--editor-badgeX, 0px), var(--editor-badgeY, 0px), 0)
       scale(var(--editor-badgeScale, 1));

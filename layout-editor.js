@@ -1,18 +1,18 @@
 (() => {
   const STORAGE_KEY = "wake-lion-layout-editor-v1";
   const defaults = {
-    leftX: 0,
-    leftY: 0,
-    leftScale: 1,
+    leftX: 3,
+    leftY: -52,
+    leftScale: 1.14,
     rightX: 0,
     rightY: 0,
     rightScale: 1,
-    brandX: 0,
-    brandY: 0,
-    brandScale: 1,
-    badgeX: 0,
-    badgeY: 0,
-    badgeScale: 1,
+    brandX: 2,
+    brandY: -5,
+    brandScale: 1.17,
+    badgeX: -27,
+    badgeY: -14,
+    badgeScale: 1.17,
   };
 
   const root = document.documentElement;
