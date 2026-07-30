@@ -19,6 +19,8 @@
   function updatePresentationScale() {
     var width = viewportWidth();
     var height = viewportHeight();
+    var shell =
+      document.querySelector && document.querySelector(".site-shell");
 
     var shouldUseCanvas =
       width >= DESKTOP_BREAKPOINT ||
@@ -27,12 +29,44 @@
     if (!shouldUseCanvas) {
       root.style.removeProperty("--presentation-scale");
       root.removeAttribute("data-presentation-scale");
+      if (shell) {
+        shell.style.removeProperty("position");
+        shell.style.removeProperty("top");
+        shell.style.removeProperty("left");
+        shell.style.removeProperty("width");
+        shell.style.removeProperty("height");
+        shell.style.removeProperty("min-height");
+        shell.style.removeProperty("transform");
+        shell.style.removeProperty("transform-origin");
+      }
       return;
     }
 
     var scale = Math.min(width / DESIGN_WIDTH, height / DESIGN_HEIGHT);
+    var offsetX = Math.max(0, (width - DESIGN_WIDTH * scale) / 2);
+    var offsetY = Math.max(0, (height - DESIGN_HEIGHT * scale) / 2);
     root.style.setProperty("--presentation-scale", scale.toFixed(6));
     root.setAttribute("data-presentation-scale", scale.toFixed(6));
+
+    if (shell) {
+      shell.style.position = "absolute";
+      shell.style.top = "0px";
+      shell.style.left = "0px";
+      shell.style.width = DESIGN_WIDTH + "px";
+      shell.style.height = DESIGN_HEIGHT + "px";
+      shell.style.minHeight = DESIGN_HEIGHT + "px";
+      shell.style.transformOrigin = "0 0";
+      shell.style.transform =
+        "matrix(" +
+        scale.toFixed(8) +
+        ",0,0," +
+        scale.toFixed(8) +
+        "," +
+        offsetX.toFixed(3) +
+        "," +
+        offsetY.toFixed(3) +
+        ")";
+    }
   }
 
   function scheduleScaleUpdate() {
@@ -153,6 +187,11 @@
       var height = viewportHeight();
       var scale =
         root.style.getPropertyValue("--presentation-scale") || "未启用";
+      var shell =
+        document.querySelector && document.querySelector(".site-shell");
+      var rect = shell && shell.getBoundingClientRect
+        ? shell.getBoundingClientRect()
+        : null;
       panel.innerHTML =
         "画面：" +
         width +
@@ -163,7 +202,17 @@
         "<br>像素比：" +
         (window.devicePixelRatio || 1) +
         "<br>横屏画布：" +
-        (width >= LANDSCAPE_MIN_WIDTH && width >= height ? "是" : "否");
+        (width >= LANDSCAPE_MIN_WIDTH && width >= height ? "是" : "否") +
+        (rect
+          ? "<br>画布框：" +
+            Math.round(rect.left) +
+            "," +
+            Math.round(rect.top) +
+            " / " +
+            Math.round(rect.width) +
+            " × " +
+            Math.round(rect.height)
+          : "");
     }
 
     document.body.appendChild(panel);
@@ -172,6 +221,7 @@
   }
 
   function createPageControls() {
+    updatePresentationScale();
     createFullscreenButton();
     createDebugPanel();
   }
@@ -184,6 +234,8 @@
   } else if (window.attachEvent) {
     window.attachEvent("onresize", scheduleScaleUpdate);
   }
+
+  window.setInterval(updatePresentationScale, 500);
 
   if (document.readyState === "loading") {
     if (document.addEventListener) {
