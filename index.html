@@ -8,9 +8,33 @@
       content="点击鼓点，随机抽取一张由孩子与 AI 共同创作的专属醒狮图案。"
     />
     <title>醒狮灵签｜抽取你的专属狮头</title>
-    <script src="./presentation.js?v=20260730-1"></script>
+    <script>
+      (function (window, document) {
+        var root = document.documentElement;
+        var timer = 0;
+        function syncScale() {
+          var width = window.innerWidth || root.clientWidth || 1536;
+          var height = window.innerHeight || root.clientHeight || 864;
+          if (width >= 981) {
+            root.style.setProperty(
+              "--presentation-scale",
+              Math.min(width / 2048, height / 1152).toFixed(6)
+            );
+          }
+        }
+        function scheduleScale() {
+          window.clearTimeout(timer);
+          timer = window.setTimeout(syncScale, 30);
+        }
+        syncScale();
+        window.addEventListener("resize", scheduleScale, false);
+        document.addEventListener("fullscreenchange", scheduleScale, false);
+        document.addEventListener("webkitfullscreenchange", scheduleScale, false);
+      })(window, document);
+    </script>
+    <script src="./presentation.js?v=20260730-2"></script>
     <link rel="preload" href="./assets/lion-gallery-sprite.jpg" as="image" />
-    <link rel="stylesheet" href="./styles.css" />
+    <link rel="stylesheet" href="./styles.css?v=20260730-2" />
   </head>
   <body>
     <main class="site-shell">
