@@ -1,11 +1,17 @@
 (() => {
-  const STORAGE_KEY = "wake-lion-layout-editor-v1";
+  const STORAGE_KEY = "wake-lion-layout-editor-v2";
+  const isShortDesktop = window.matchMedia(
+    "(min-width: 761px) and (max-height: 850px)",
+  ).matches;
+
   const defaults = {
     leftX: 3,
     leftY: -52,
+    leftWidth: 760,
     leftScale: 1.14,
     rightX: 41,
     rightY: -55,
+    rightWidth: isShortDesktop ? 680 : 720,
     rightScale: 1.1,
     brandX: 2,
     brandY: -5,
@@ -13,8 +19,71 @@
     badgeX: -27,
     badgeY: -14,
     badgeScale: 1.17,
+    statsWidth: 100,
+    cardPadding: isShortDesktop ? 10 : 18,
+    resultHeight: isShortDesktop ? 54 : 132,
+    heroTitleSize: isShortDesktop ? 62 : 104,
+    introSize: isShortDesktop ? 16 : 23,
+    noteSize: isShortDesktop ? 17 : 25,
+    tagSize: isShortDesktop ? 12 : 18,
+    cardHeadingSize: isShortDesktop ? 13 : 20,
+    cardTitleSize: isShortDesktop ? 28 : 44,
+    cardCopySize: isShortDesktop ? 14 : 22,
+    buttonTextSize: isShortDesktop ? 15 : 23,
   };
 
+  const controlGroups = [
+    {
+      title: "左侧内容",
+      open: true,
+      controls: [
+        { key: "leftX", label: "水平位置 X", min: -500, max: 500, step: 1, unit: "px" },
+        { key: "leftY", label: "垂直位置 Y", min: -400, max: 400, step: 1, unit: "px" },
+        { key: "leftWidth", label: "内容框宽度", min: 420, max: 920, step: 2, unit: "px" },
+        { key: "leftScale", label: "整体缩放", min: 0.6, max: 1.5, step: 0.01, unit: "scale" },
+        { key: "statsWidth", label: "数字横框宽度", min: 55, max: 120, step: 1, unit: "%" },
+      ],
+    },
+    {
+      title: "右侧展示卡",
+      open: true,
+      controls: [
+        { key: "rightX", label: "水平位置 X", min: -500, max: 500, step: 1, unit: "px" },
+        { key: "rightY", label: "垂直位置 Y", min: -400, max: 400, step: 1, unit: "px" },
+        { key: "rightWidth", label: "卡片框宽度", min: 420, max: 920, step: 2, unit: "px" },
+        { key: "rightScale", label: "整体缩放", min: 0.6, max: 1.35, step: 0.01, unit: "scale" },
+        { key: "cardPadding", label: "卡片内边距", min: 6, max: 36, step: 1, unit: "px" },
+        { key: "resultHeight", label: "下方文字框高度", min: 50, max: 190, step: 2, unit: "px" },
+      ],
+    },
+    {
+      title: "文字大小",
+      controls: [
+        { key: "heroTitleSize", label: "左侧主标题", min: 44, max: 132, step: 1, unit: "px" },
+        { key: "introSize", label: "左侧介绍文字", min: 12, max: 34, step: 1, unit: "px" },
+        { key: "noteSize", label: "醒狮醒志文字", min: 12, max: 36, step: 1, unit: "px" },
+        { key: "tagSize", label: "三个标签文字", min: 10, max: 28, step: 1, unit: "px" },
+        { key: "cardHeadingSize", label: "卡片顶部文字", min: 10, max: 30, step: 1, unit: "px" },
+        { key: "cardTitleSize", label: "灵狮作品标题", min: 20, max: 64, step: 1, unit: "px" },
+        { key: "cardCopySize", label: "灵狮祝福文字", min: 11, max: 34, step: 1, unit: "px" },
+        { key: "buttonTextSize", label: "抽取按钮文字", min: 12, max: 34, step: 1, unit: "px" },
+      ],
+    },
+    {
+      title: "品牌与角标",
+      controls: [
+        { key: "brandX", label: "品牌水平位置", min: -300, max: 500, step: 1, unit: "px" },
+        { key: "brandY", label: "品牌垂直位置", min: -200, max: 300, step: 1, unit: "px" },
+        { key: "brandScale", label: "品牌整体缩放", min: 0.6, max: 1.6, step: 0.01, unit: "scale" },
+        { key: "badgeX", label: "角标水平位置", min: -500, max: 800, step: 1, unit: "px" },
+        { key: "badgeY", label: "角标垂直位置", min: -300, max: 300, step: 1, unit: "px" },
+        { key: "badgeScale", label: "角标整体缩放", min: 0.6, max: 1.6, step: 0.01, unit: "scale" },
+      ],
+    },
+  ];
+
+  const controls = controlGroups.flatMap((group) => group.controls);
+  const controlByKey = new Map(controls.map((control) => [control.key, control]));
   const root = document.documentElement;
   const editorEnabled = new URLSearchParams(window.location.search).get("edit") === "1";
   let state = { ...defaults };
@@ -26,13 +95,21 @@
     state = { ...defaults };
   }
 
+  const clampValue = (key, value) => {
+    const control = controlByKey.get(key);
+    if (!control || !Number.isFinite(value)) return defaults[key];
+    return Math.min(control.max, Math.max(control.min, value));
+  };
+
   const isCustomized = () =>
     Object.keys(defaults).some((key) => Math.abs(state[key] - defaults[key]) > 0.001);
 
   const applyState = () => {
-    Object.entries(state).forEach(([key, value]) => {
-      const suffix = key.endsWith("Scale") ? "" : "px";
-      root.style.setProperty(`--editor-${key}`, `${value}${suffix}`);
+    Object.keys(defaults).forEach((key) => {
+      const control = controlByKey.get(key);
+      const suffix =
+        control?.unit === "scale" ? "" : control?.unit === "%" ? "%" : "px";
+      root.style.setProperty(`--editor-${key}`, `${state[key]}${suffix}`);
     });
     root.classList.toggle("layout-customized", isCustomized());
   };
@@ -42,56 +119,99 @@
     applyState();
   };
 
+  const formatValue = (key) => {
+    const control = controlByKey.get(key);
+    const value = state[key];
+    if (control?.unit === "scale") return `${Math.round(value * 100)}%`;
+    if (control?.unit === "%") return `${Math.round(value)}%`;
+    return `${Math.round(value)}px`;
+  };
+
   applyState();
   if (!editorEnabled) return;
 
   root.classList.add("layout-editor-active");
 
+  const controlMarkup = (control) => `
+    <label class="editor-control" data-control="${control.key}">
+      <span class="editor-control-name">
+        <span>${control.label}</span>
+        <output data-output="${control.key}"></output>
+      </span>
+      <span class="editor-control-inputs">
+        <input
+          data-key="${control.key}"
+          data-input-kind="range"
+          type="range"
+          min="${control.min}"
+          max="${control.max}"
+          step="${control.step}"
+        />
+        <span class="editor-number-wrap">
+          <input
+            data-key="${control.key}"
+            data-input-kind="number"
+            type="number"
+            min="${control.min}"
+            max="${control.max}"
+            step="${control.step}"
+            aria-label="${control.label}精确数值"
+          />
+          <small>${control.unit === "scale" ? "倍" : control.unit}</small>
+        </span>
+      </span>
+    </label>
+  `;
+
+  const groupMarkup = (group) => `
+    <details class="editor-control-group" ${group.open ? "open" : ""}>
+      <summary>${group.title}<span>${group.controls.length} 项</span></summary>
+      <div class="editor-control-group-body">
+        ${group.controls.map(controlMarkup).join("")}
+      </div>
+    </details>
+  `;
+
   const panel = document.createElement("aside");
   panel.className = "layout-editor-panel";
-  panel.setAttribute("aria-label", "醒狮页面版式编辑器");
+  panel.setAttribute("aria-label", "醒狮页面高级版式编辑器");
   panel.innerHTML = `
     <div class="editor-panel-head">
       <div>
-        <strong>版式编辑</strong>
-        <small>拖动虚线标签调整位置</small>
+        <strong>高级版式编辑</strong>
+        <small>拖动模块，或在数值框中精确输入</small>
       </div>
-      <span class="editor-live-dot">编辑中</span>
+      <div class="editor-head-actions">
+        <button type="button" data-action="side" aria-label="切换编辑面板位置" title="面板换边">⇄</button>
+        <button type="button" data-action="collapse" aria-label="折叠编辑面板" title="折叠面板">−</button>
+      </div>
     </div>
-    <div class="editor-control-list">
-      <label>
-        <span>左侧整体大小 <output data-output="leftScale"></output></span>
-        <input data-key="leftScale" type="range" min="0.70" max="1.35" step="0.01" />
-      </label>
-      <label>
-        <span>右侧卡片大小 <output data-output="rightScale"></output></span>
-        <input data-key="rightScale" type="range" min="0.65" max="1.18" step="0.01" />
-      </label>
-      <label>
-        <span>顶部品牌大小 <output data-output="brandScale"></output></span>
-        <input data-key="brandScale" type="range" min="0.70" max="1.40" step="0.01" />
-      </label>
-      <label>
-        <span>左下标识大小 <output data-output="badgeScale"></output></span>
-        <input data-key="badgeScale" type="range" min="0.70" max="1.40" step="0.01" />
-      </label>
+    <div class="editor-panel-body">
+      <div class="editor-quick-tools">
+        <button type="button" data-action="grid" aria-pressed="false">显示参考网格</button>
+        <span>方向键微调 1px，Shift + 方向键移动 10px</span>
+      </div>
+      <div class="editor-control-list">
+        ${controlGroups.map(groupMarkup).join("")}
+      </div>
+      <p class="editor-tip">调整结果只保存在当前浏览器。满意后点击“复制全部参数”发给 Codex，即可固化到公开页面。</p>
+      <div class="editor-actions">
+        <button type="button" data-action="copy">复制全部参数</button>
+        <button type="button" data-action="preview">退出并预览</button>
+        <button type="button" data-action="reset" class="is-quiet">恢复本页默认值</button>
+      </div>
+      <div class="editor-toast" role="status" aria-live="polite"></div>
     </div>
-    <p class="editor-tip">位置和大小仅保存在当前浏览器。满意后复制参数发给 Codex，即可固化到公开页面。</p>
-    <div class="editor-actions">
-      <button type="button" data-action="copy">复制参数</button>
-      <button type="button" data-action="preview">退出并预览</button>
-      <button type="button" data-action="reset" class="is-quiet">恢复默认</button>
-    </div>
-    <div class="editor-toast" role="status" aria-live="polite"></div>
   `;
   document.body.append(panel);
 
   const updatePanel = () => {
-    panel.querySelectorAll("[data-key]").forEach((input) => {
-      input.value = state[input.dataset.key];
-    });
-    panel.querySelectorAll("[data-output]").forEach((output) => {
-      output.textContent = `${Math.round(state[output.dataset.output] * 100)}%`;
+    controls.forEach(({ key }) => {
+      panel.querySelectorAll(`[data-key="${key}"]`).forEach((input) => {
+        input.value = state[key];
+      });
+      const output = panel.querySelector(`[data-output="${key}"]`);
+      if (output) output.textContent = formatValue(key);
     });
   };
 
@@ -106,7 +226,9 @@
   panel.addEventListener("input", (event) => {
     const input = event.target.closest("[data-key]");
     if (!input) return;
-    state[input.dataset.key] = Number(input.value);
+    const key = input.dataset.key;
+    const nextValue = clampValue(key, Number(input.value));
+    state[key] = nextValue;
     saveState();
     updatePanel();
   });
@@ -127,7 +249,7 @@
       const payload = JSON.stringify(state, null, 2);
       try {
         await navigator.clipboard.writeText(payload);
-        toast("参数已复制，可以直接发给 Codex");
+        toast("全部参数已复制，可以直接发给 Codex");
       } catch {
         window.prompt("复制下面的版式参数：", payload);
       }
@@ -137,6 +259,22 @@
       const url = new URL(window.location.href);
       url.searchParams.delete("edit");
       window.location.href = url.toString();
+    }
+
+    if (button.dataset.action === "grid") {
+      const isVisible = root.classList.toggle("layout-grid-visible");
+      button.setAttribute("aria-pressed", String(isVisible));
+      button.textContent = isVisible ? "隐藏参考网格" : "显示参考网格";
+    }
+
+    if (button.dataset.action === "side") {
+      panel.classList.toggle("is-left");
+    }
+
+    if (button.dataset.action === "collapse") {
+      const isCollapsed = panel.classList.toggle("is-collapsed");
+      button.textContent = isCollapsed ? "+" : "−";
+      button.setAttribute("aria-label", isCollapsed ? "展开编辑面板" : "折叠编辑面板");
     }
   });
 
@@ -155,8 +293,24 @@
     handle.type = "button";
     handle.className = "layout-drag-handle";
     handle.textContent = label;
-    handle.setAttribute("aria-label", label);
+    handle.setAttribute("aria-label", `${label}，可使用方向键微调`);
     target.append(handle);
+
+    handle.addEventListener("keydown", (event) => {
+      const movements = {
+        ArrowLeft: [-1, 0],
+        ArrowRight: [1, 0],
+        ArrowUp: [0, -1],
+        ArrowDown: [0, 1],
+      };
+      if (!movements[event.key]) return;
+      event.preventDefault();
+      const distance = event.shiftKey ? 10 : 1;
+      state[`${key}X`] += movements[event.key][0] * distance;
+      state[`${key}Y`] += movements[event.key][1] * distance;
+      saveState();
+      updatePanel();
+    });
 
     handle.addEventListener("pointerdown", (event) => {
       event.preventDefault();
@@ -170,6 +324,7 @@
         state[`${key}X`] = Math.round(originX + moveEvent.clientX - startX);
         state[`${key}Y`] = Math.round(originY + moveEvent.clientY - startY);
         applyState();
+        updatePanel();
       };
 
       const end = () => {

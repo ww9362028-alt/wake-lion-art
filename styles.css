@@ -10,9 +10,11 @@
   --jade: #466b5b;
   --editor-leftX: 3px;
   --editor-leftY: -52px;
+  --editor-leftWidth: 760px;
   --editor-leftScale: 1.14;
   --editor-rightX: 41px;
   --editor-rightY: -55px;
+  --editor-rightWidth: 720px;
   --editor-rightScale: 1.1;
   --editor-brandX: 2px;
   --editor-brandY: -5px;
@@ -20,6 +22,17 @@
   --editor-badgeX: -27px;
   --editor-badgeY: -14px;
   --editor-badgeScale: 1.17;
+  --editor-statsWidth: 100%;
+  --editor-cardPadding: 18px;
+  --editor-resultHeight: 132px;
+  --editor-heroTitleSize: 104px;
+  --editor-introSize: 23px;
+  --editor-noteSize: 25px;
+  --editor-tagSize: 18px;
+  --editor-cardHeadingSize: 20px;
+  --editor-cardTitleSize: 44px;
+  --editor-cardCopySize: 22px;
+  --editor-buttonTextSize: 23px;
 }
 
 * {
@@ -185,8 +198,8 @@ button {
   display: grid;
   align-self: center;
   justify-self: start;
-  width: 100%;
-  max-width: 760px;
+  width: min(100%, var(--editor-leftWidth, 760px));
+  max-width: none;
   gap: clamp(25px, 3vh, 40px);
 }
 
@@ -268,7 +281,7 @@ p {
 }
 
 .mini-stats {
-  width: 100%;
+  width: var(--editor-statsWidth, 100%);
   margin: 31px 0 25px;
   padding: 23px 18px;
   display: flex;
@@ -338,7 +351,7 @@ p {
 .draw-stage {
   grid-area: draw;
   position: relative;
-  width: min(100%, 720px, calc(100svh - 245px));
+  width: min(100%, var(--editor-rightWidth, 720px), calc(100svh - 245px));
   align-self: center;
   justify-self: end;
 }
@@ -1059,7 +1072,12 @@ footer p {
   }
 
   .draw-stage {
-    width: min(100%, 680px, calc(100svh - 175px));
+    width: min(
+      100%,
+      var(--editor-rightWidth, 680px),
+      680px,
+      calc(100svh - 175px)
+    );
   }
 
   .hero-copy::before {
@@ -1409,6 +1427,57 @@ footer p {
       scale(var(--editor-badgeScale, 1));
     transform-origin: left bottom;
   }
+
+  html:is(.layout-editor-active, .layout-customized) .draw-card {
+    padding: var(--editor-cardPadding, 18px);
+  }
+
+  html:is(.layout-editor-active, .layout-customized) .info-panel {
+    width: var(--editor-leftWidth, 760px);
+  }
+
+  html:is(.layout-editor-active, .layout-customized) .draw-stage {
+    width: var(--editor-rightWidth, 720px);
+  }
+
+  html:is(.layout-editor-active, .layout-customized) .result-copy,
+  html:is(.layout-editor-active, .layout-customized) .draw-button {
+    min-height: var(--editor-resultHeight, 132px);
+  }
+
+  html:is(.layout-editor-active, .layout-customized) .hero h1 {
+    font-size: var(--editor-heroTitleSize, 104px);
+  }
+
+  html:is(.layout-editor-active, .layout-customized) .hero-intro {
+    font-size: var(--editor-introSize, 23px);
+  }
+
+  html:is(.layout-editor-active, .layout-customized) .culture-note p {
+    font-size: var(--editor-noteSize, 25px);
+  }
+
+  html:is(.layout-editor-active, .layout-customized) .heritage-tags span {
+    font-size: var(--editor-tagSize, 18px);
+  }
+
+  html:is(.layout-editor-active, .layout-customized) .card-heading {
+    font-size: var(--editor-cardHeadingSize, 20px);
+  }
+
+  html:is(.layout-editor-active, .layout-customized) .result-copy h2 {
+    font-size: var(--editor-cardTitleSize, 44px);
+  }
+
+  html:is(.layout-editor-active, .layout-customized)
+    .result-copy
+    > p:last-child {
+    font-size: var(--editor-cardCopySize, 22px);
+  }
+
+  html:is(.layout-editor-active, .layout-customized) .draw-button {
+    font-size: var(--editor-buttonTextSize, 23px);
+  }
 }
 
 .layout-editor-panel {
@@ -1416,8 +1485,11 @@ footer p {
   top: 18px;
   right: 18px;
   z-index: 10000;
-  width: min(340px, calc(100vw - 28px));
+  width: min(410px, calc(100vw - 28px));
+  max-height: calc(100svh - 36px);
   padding: 18px;
+  display: flex;
+  flex-direction: column;
   border: 1px solid rgba(231, 191, 106, 0.42);
   border-radius: 12px;
   background: rgba(34, 29, 23, 0.94);
@@ -1426,6 +1498,7 @@ footer p {
     "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif;
   box-shadow: 0 20px 60px rgba(28, 17, 10, 0.34);
   backdrop-filter: blur(18px);
+  overflow: hidden;
 }
 
 .editor-panel-head {
@@ -1534,6 +1607,211 @@ footer p {
 
 .editor-toast.is-visible {
   opacity: 1;
+}
+
+.editor-head-actions {
+  display: flex;
+  gap: 6px;
+}
+
+.editor-head-actions button {
+  width: 30px;
+  height: 30px;
+  padding: 0;
+  border: 1px solid rgba(226, 189, 114, 0.34);
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.06);
+  color: #f0c96f;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.editor-panel-body {
+  flex: 1;
+  min-height: 0;
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr) auto auto auto;
+}
+
+.layout-editor-panel.is-left {
+  right: auto;
+  left: 18px;
+}
+
+.layout-editor-panel.is-collapsed {
+  width: min(250px, calc(100vw - 28px));
+}
+
+.layout-editor-panel.is-collapsed .editor-panel-head {
+  margin-bottom: 0;
+}
+
+.layout-editor-panel.is-collapsed .editor-panel-body,
+.layout-editor-panel.is-collapsed .editor-panel-head small {
+  display: none;
+}
+
+.editor-quick-tools {
+  margin-bottom: 12px;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  gap: 9px;
+}
+
+.editor-quick-tools button {
+  min-height: 30px;
+  padding: 0 9px;
+  border: 1px solid rgba(226, 189, 114, 0.3);
+  border-radius: 5px;
+  background: rgba(255, 255, 255, 0.06);
+  color: #f0c96f;
+  cursor: pointer;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.editor-quick-tools button[aria-pressed="true"] {
+  background: rgba(214, 167, 73, 0.18);
+}
+
+.editor-quick-tools span {
+  color: rgba(255, 246, 227, 0.5);
+  font-size: 10px;
+  line-height: 1.45;
+}
+
+.editor-control-list {
+  min-height: 0;
+  padding-right: 6px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-color: rgba(214, 167, 73, 0.55) transparent;
+}
+
+.editor-control-group {
+  border: 1px solid rgba(226, 189, 114, 0.17);
+  border-radius: 7px;
+  background: rgba(255, 255, 255, 0.025);
+}
+
+.editor-control-group + .editor-control-group {
+  margin-top: 8px;
+}
+
+.editor-control-group summary {
+  padding: 10px 11px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: #fff2d5;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 800;
+  list-style: none;
+}
+
+.editor-control-group summary::-webkit-details-marker {
+  display: none;
+}
+
+.editor-control-group summary::before {
+  content: "＋";
+  margin-right: 7px;
+  color: #f0c96f;
+}
+
+.editor-control-group[open] summary::before {
+  content: "－";
+}
+
+.editor-control-group summary > span {
+  margin-left: auto;
+  color: rgba(255, 246, 227, 0.42);
+  font-size: 10px;
+  font-weight: 500;
+}
+
+.editor-control-group-body {
+  padding: 2px 11px 12px;
+  display: grid;
+  gap: 12px;
+}
+
+.editor-control-list .editor-control {
+  gap: 6px;
+}
+
+.editor-control-list label > .editor-control-name {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: rgba(255, 246, 227, 0.8);
+  font-size: 12px;
+}
+
+.editor-control-name output {
+  color: #f0c96f;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.editor-control-list label > .editor-control-inputs {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 92px;
+  align-items: center;
+  gap: 9px;
+}
+
+.editor-number-wrap {
+  height: 28px;
+  padding-right: 7px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  border: 1px solid rgba(226, 189, 114, 0.24);
+  border-radius: 4px;
+  background: rgba(13, 11, 9, 0.34);
+}
+
+.editor-number-wrap input {
+  width: 100%;
+  min-width: 0;
+  padding: 0 3px 0 8px;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: #fff3d7;
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+}
+
+.editor-number-wrap input::-webkit-inner-spin-button,
+.editor-number-wrap input::-webkit-outer-spin-button {
+  opacity: 0.55;
+}
+
+.editor-number-wrap small {
+  color: rgba(255, 246, 227, 0.43);
+  font-size: 9px;
+}
+
+html.layout-grid-visible body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 9990;
+  pointer-events: none;
+  background-image:
+    linear-gradient(rgba(166, 45, 34, 0.16) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(166, 45, 34, 0.16) 1px, transparent 1px),
+    linear-gradient(rgba(70, 107, 91, 0.28) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(70, 107, 91, 0.28) 1px, transparent 1px);
+  background-size:
+    10px 10px,
+    10px 10px,
+    50px 50px,
+    50px 50px;
 }
 
 .layout-drag-handle {
