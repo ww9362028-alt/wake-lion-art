@@ -4,6 +4,7 @@
   var DESIGN_WIDTH = 2048;
   var DESIGN_HEIGHT = 1152;
   var DESKTOP_BREAKPOINT = 981;
+  var LANDSCAPE_MIN_WIDTH = 600;
   var root = document.documentElement;
   var resizeTimer = 0;
 
@@ -19,7 +20,11 @@
     var width = viewportWidth();
     var height = viewportHeight();
 
-    if (width < DESKTOP_BREAKPOINT) {
+    var shouldUseCanvas =
+      width >= DESKTOP_BREAKPOINT ||
+      (width >= LANDSCAPE_MIN_WIDTH && width >= height);
+
+    if (!shouldUseCanvas) {
       root.style.removeProperty("--presentation-scale");
       root.removeAttribute("data-presentation-scale");
       return;
@@ -131,6 +136,46 @@
     }
   }
 
+  function createDebugPanel() {
+    if (window.location.search.indexOf("debug=1") === -1) {
+      return;
+    }
+
+    var panel = document.createElement("div");
+    panel.id = "presentation-debug";
+    panel.style.cssText =
+      "position:fixed;left:12px;top:12px;z-index:999999;padding:10px 12px;" +
+      "background:rgba(17,17,17,.9);color:#fff;border-radius:8px;" +
+      "font:16px/1.5 Arial,sans-serif;pointer-events:none;text-align:left;";
+
+    function updateDebugPanel() {
+      var width = viewportWidth();
+      var height = viewportHeight();
+      var scale =
+        root.style.getPropertyValue("--presentation-scale") || "未启用";
+      panel.innerHTML =
+        "画面：" +
+        width +
+        " × " +
+        height +
+        "<br>缩放：" +
+        scale +
+        "<br>像素比：" +
+        (window.devicePixelRatio || 1) +
+        "<br>横屏画布：" +
+        (width >= LANDSCAPE_MIN_WIDTH && width >= height ? "是" : "否");
+    }
+
+    document.body.appendChild(panel);
+    updateDebugPanel();
+    window.addEventListener("resize", updateDebugPanel, false);
+  }
+
+  function createPageControls() {
+    createFullscreenButton();
+    createDebugPanel();
+  }
+
   updatePresentationScale();
 
   if (window.addEventListener) {
@@ -142,11 +187,11 @@
 
   if (document.readyState === "loading") {
     if (document.addEventListener) {
-      document.addEventListener("DOMContentLoaded", createFullscreenButton, false);
+      document.addEventListener("DOMContentLoaded", createPageControls, false);
     } else {
-      window.attachEvent("onload", createFullscreenButton);
+      window.attachEvent("onload", createPageControls);
     }
   } else {
-    createFullscreenButton();
+    createPageControls();
   }
 })(window, document);
