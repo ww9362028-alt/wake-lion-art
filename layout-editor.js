@@ -1,35 +1,32 @@
 (() => {
-  const STORAGE_KEY = "wake-lion-layout-editor-v2";
-  const isShortDesktop = window.matchMedia(
-    "(min-width: 761px) and (max-height: 850px)",
-  ).matches;
+  const STORAGE_KEY = "wake-lion-layout-editor-v3";
 
   const defaults = {
-    leftX: 3,
+    leftX: -76,
     leftY: -52,
-    leftWidth: 760,
+    leftWidth: 776,
     leftScale: 1.14,
-    rightX: 41,
+    rightX: 1,
     rightY: -55,
-    rightWidth: isShortDesktop ? 680 : 720,
-    rightScale: 1.1,
-    brandX: 2,
-    brandY: -5,
+    rightWidth: 714,
+    rightScale: 1.11,
+    brandX: -74,
+    brandY: -4,
     brandScale: 1.17,
-    badgeX: -27,
-    badgeY: -14,
+    badgeX: -104,
+    badgeY: -70,
     badgeScale: 1.17,
-    statsWidth: 100,
-    cardPadding: isShortDesktop ? 10 : 18,
-    resultHeight: isShortDesktop ? 54 : 132,
-    heroTitleSize: isShortDesktop ? 62 : 104,
-    introSize: isShortDesktop ? 16 : 23,
-    noteSize: isShortDesktop ? 17 : 25,
-    tagSize: isShortDesktop ? 12 : 18,
-    cardHeadingSize: isShortDesktop ? 13 : 20,
-    cardTitleSize: isShortDesktop ? 28 : 44,
-    cardCopySize: isShortDesktop ? 14 : 22,
-    buttonTextSize: isShortDesktop ? 15 : 23,
+    statsWidth: 96,
+    cardPadding: 18,
+    resultHeight: 80,
+    heroTitleSize: 110,
+    introSize: 20,
+    noteSize: 25,
+    tagSize: 28,
+    cardHeadingSize: 20,
+    cardTitleSize: 48,
+    cardCopySize: 26,
+    buttonTextSize: 27,
   };
 
   const controlGroups = [
@@ -128,6 +125,58 @@
   };
 
   applyState();
+
+  const fullscreenButton = document.createElement("button");
+  fullscreenButton.type = "button";
+  fullscreenButton.className = "fullscreen-toggle";
+  fullscreenButton.textContent = "⛶";
+  fullscreenButton.title = "全屏展示";
+  fullscreenButton.setAttribute("aria-label", "进入全屏展示");
+  fullscreenButton.setAttribute("aria-pressed", "false");
+
+  const currentFullscreenElement = () =>
+    document.fullscreenElement || document.webkitFullscreenElement;
+
+  const updateFullscreenButton = () => {
+    const isFullscreen = Boolean(currentFullscreenElement());
+    fullscreenButton.dataset.active = String(isFullscreen);
+    fullscreenButton.setAttribute("aria-pressed", String(isFullscreen));
+    fullscreenButton.setAttribute(
+      "aria-label",
+      isFullscreen ? "退出全屏展示" : "进入全屏展示",
+    );
+    fullscreenButton.title = isFullscreen ? "退出全屏" : "全屏展示";
+  };
+
+  fullscreenButton.addEventListener("click", async () => {
+    try {
+      if (currentFullscreenElement()) {
+        const exitFullscreen =
+          document.exitFullscreen?.bind(document) ||
+          document.webkitExitFullscreen?.bind(document);
+        await exitFullscreen?.();
+      } else {
+        const requestFullscreen =
+          document.documentElement.requestFullscreen?.bind(document.documentElement) ||
+          document.documentElement.webkitRequestFullscreen?.bind(
+            document.documentElement,
+          );
+        await requestFullscreen?.();
+      }
+    } catch {
+      fullscreenButton.classList.add("is-unavailable");
+      window.setTimeout(
+        () => fullscreenButton.classList.remove("is-unavailable"),
+        1200,
+      );
+    }
+  });
+
+  document.addEventListener("fullscreenchange", updateFullscreenButton);
+  document.addEventListener("webkitfullscreenchange", updateFullscreenButton);
+  document.body.append(fullscreenButton);
+  updateFullscreenButton();
+
   if (!editorEnabled) return;
 
   root.classList.add("layout-editor-active");

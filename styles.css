@@ -8,31 +8,31 @@
   --gold: #c9953a;
   --gold-light: #e2bd72;
   --jade: #466b5b;
-  --editor-leftX: 3px;
+  --editor-leftX: -76px;
   --editor-leftY: -52px;
-  --editor-leftWidth: 760px;
+  --editor-leftWidth: 776px;
   --editor-leftScale: 1.14;
-  --editor-rightX: 41px;
+  --editor-rightX: 1px;
   --editor-rightY: -55px;
-  --editor-rightWidth: 720px;
-  --editor-rightScale: 1.1;
-  --editor-brandX: 2px;
-  --editor-brandY: -5px;
+  --editor-rightWidth: 714px;
+  --editor-rightScale: 1.11;
+  --editor-brandX: -74px;
+  --editor-brandY: -4px;
   --editor-brandScale: 1.17;
-  --editor-badgeX: -27px;
-  --editor-badgeY: -14px;
+  --editor-badgeX: -104px;
+  --editor-badgeY: -70px;
   --editor-badgeScale: 1.17;
-  --editor-statsWidth: 100%;
+  --editor-statsWidth: 96%;
   --editor-cardPadding: 18px;
-  --editor-resultHeight: 132px;
-  --editor-heroTitleSize: 104px;
-  --editor-introSize: 23px;
+  --editor-resultHeight: 80px;
+  --editor-heroTitleSize: 110px;
+  --editor-introSize: 20px;
   --editor-noteSize: 25px;
-  --editor-tagSize: 18px;
+  --editor-tagSize: 28px;
   --editor-cardHeadingSize: 20px;
-  --editor-cardTitleSize: 44px;
-  --editor-cardCopySize: 22px;
-  --editor-buttonTextSize: 23px;
+  --editor-cardTitleSize: 48px;
+  --editor-cardCopySize: 26px;
+  --editor-buttonTextSize: 27px;
 }
 
 * {
@@ -1478,6 +1478,105 @@ footer p {
   html:is(.layout-editor-active, .layout-customized) .draw-button {
     font-size: var(--editor-buttonTextSize, 23px);
   }
+}
+
+@media (min-width: 981px) {
+  html .draw-card {
+    padding: var(--editor-cardPadding, 18px);
+  }
+
+  html .info-panel {
+    width: var(--editor-leftWidth, 776px);
+  }
+
+  html .draw-stage {
+    width: var(--editor-rightWidth, 714px);
+  }
+
+  html .result-copy,
+  html .draw-button {
+    min-height: var(--editor-resultHeight, 80px);
+  }
+
+  html .hero h1 {
+    font-size: var(--editor-heroTitleSize, 110px);
+  }
+
+  html .hero-intro {
+    font-size: var(--editor-introSize, 20px);
+  }
+
+  html .culture-note p {
+    font-size: var(--editor-noteSize, 25px);
+  }
+
+  html .heritage-tags span {
+    font-size: var(--editor-tagSize, 28px);
+  }
+
+  html .card-heading {
+    font-size: var(--editor-cardHeadingSize, 20px);
+  }
+
+  html .result-copy h2 {
+    font-size: var(--editor-cardTitleSize, 48px);
+  }
+
+  html .result-copy > p:last-child {
+    font-size: var(--editor-cardCopySize, 26px);
+  }
+
+  html .draw-button {
+    font-size: var(--editor-buttonTextSize, 27px);
+  }
+}
+
+.fullscreen-toggle {
+  position: fixed;
+  top: 14px;
+  right: 14px;
+  z-index: 90;
+  width: 34px;
+  height: 34px;
+  padding: 0;
+  display: grid;
+  place-items: center;
+  border: 1px solid rgba(104, 83, 51, 0.18);
+  border-radius: 50%;
+  background: rgba(248, 240, 223, 0.34);
+  color: rgba(66, 54, 40, 0.72);
+  cursor: pointer;
+  font-family: Arial, sans-serif;
+  font-size: 18px;
+  line-height: 1;
+  opacity: 0.13;
+  backdrop-filter: blur(8px);
+  transition:
+    opacity 0.2s ease,
+    background 0.2s ease,
+    transform 0.2s ease;
+}
+
+.fullscreen-toggle:hover,
+.fullscreen-toggle:focus-visible {
+  background: rgba(248, 240, 223, 0.92);
+  opacity: 0.92;
+  outline: none;
+  transform: scale(1.04);
+}
+
+.fullscreen-toggle[data-active="true"] {
+  opacity: 0.22;
+}
+
+.fullscreen-toggle.is-unavailable {
+  color: var(--red);
+  opacity: 0.9;
+  transform: scale(0.9);
+}
+
+.layout-editor-active .fullscreen-toggle {
+  display: none;
 }
 
 .layout-editor-panel {
