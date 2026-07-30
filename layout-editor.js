@@ -85,11 +85,13 @@
   const editorEnabled = new URLSearchParams(window.location.search).get("edit") === "1";
   let state = { ...defaults };
 
-  try {
-    const saved = JSON.parse(window.localStorage.getItem(STORAGE_KEY) || "null");
-    if (saved && typeof saved === "object") state = { ...defaults, ...saved };
-  } catch {
-    state = { ...defaults };
+  if (editorEnabled) {
+    try {
+      const saved = JSON.parse(window.localStorage.getItem(STORAGE_KEY) || "null");
+      if (saved && typeof saved === "object") state = { ...defaults, ...saved };
+    } catch {
+      state = { ...defaults };
+    }
   }
 
   const clampValue = (key, value) => {
@@ -124,10 +126,9 @@
     return `${Math.round(value)}px`;
   };
 
-  applyState();
-
   if (!editorEnabled) return;
 
+  applyState();
   root.classList.add("layout-editor-active");
 
   const controlMarkup = (control) => `
