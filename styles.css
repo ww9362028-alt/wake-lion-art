@@ -1564,6 +1564,13 @@ footer p {
   display: block;
 }
 
+.layout-editor-active .draw-stage > .layout-drag-handle {
+  top: 14px;
+  right: auto;
+  left: 14px;
+  z-index: 10001;
+}
+
 .layout-editor-active .info-panel,
 .layout-editor-active .draw-stage,
 .layout-editor-active .brand,
