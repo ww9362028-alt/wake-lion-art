@@ -127,13 +127,21 @@ button {
 }
 
 .project-badge {
+  position: fixed;
+  left: max(48px, calc((100vw - 1680px) / 2 + 28px));
+  bottom: 26px;
+  z-index: 8;
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 12px;
+  padding: 10px 16px;
+  border-left: 3px solid var(--red);
+  background: rgba(248, 240, 223, 0.88);
   color: #685e51;
-  font-size: 24px;
+  font-size: 21px;
   font-weight: 600;
   letter-spacing: 0.1em;
+  backdrop-filter: blur(8px);
 }
 
 .badge-dot {
@@ -164,12 +172,15 @@ button {
   min-width: 0;
   display: grid;
   align-self: center;
+  justify-self: start;
+  width: 100%;
+  max-width: 760px;
   gap: clamp(25px, 3vh, 40px);
 }
 
 .hero-copy {
   position: relative;
-  padding-left: 28px;
+  padding-left: 32px;
 }
 
 .hero-copy::before {
@@ -262,6 +273,7 @@ p {
   min-width: 0;
   display: grid;
   gap: 8px;
+  text-align: center;
 }
 
 .mini-stats strong {
@@ -314,7 +326,7 @@ p {
 .draw-stage {
   grid-area: draw;
   position: relative;
-  width: min(100%, 800px, calc(100svh - 125px));
+  width: min(100%, 720px, calc(100svh - 245px));
   align-self: center;
   justify-self: end;
 }
@@ -704,7 +716,7 @@ p {
 .result-copy {
   grid-area: result;
   min-width: 0;
-  min-height: 112px;
+  min-height: 132px;
   padding: 17px 7px 11px 10px;
   text-align: left;
 }
@@ -737,7 +749,7 @@ p {
   grid-area: button;
   position: relative;
   width: 100%;
-  min-height: 112px;
+  min-height: 132px;
   height: calc(100% - 7px);
   margin-top: 7px;
   padding: 0 12px;
@@ -842,6 +854,7 @@ p {
 }
 
 .heritage-tags {
+  margin-left: 32px;
   display: flex;
   gap: 14px;
   flex-wrap: wrap;
@@ -1034,7 +1047,7 @@ footer p {
   }
 
   .draw-stage {
-    width: min(100%, 760px, calc(100svh - 145px));
+    width: min(100%, 680px, calc(100svh - 175px));
   }
 
   .hero-copy::before {
@@ -1158,8 +1171,13 @@ footer p {
   }
 
   .project-badge {
+    position: static;
+    padding: 0;
+    border-left: 0;
+    background: transparent;
     font-size: 11px;
     letter-spacing: 0.04em;
+    backdrop-filter: none;
   }
 
   .badge-dot {
@@ -1299,6 +1317,7 @@ footer p {
   }
 
   .heritage-tags {
+    margin-left: 15px;
     gap: 8px;
   }
 
