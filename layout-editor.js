@@ -83,31 +83,7 @@
   const controlByKey = new Map(controls.map((control) => [control.key, control]));
   const root = document.documentElement;
   const editorEnabled = new URLSearchParams(window.location.search).get("edit") === "1";
-  const presentationWidth = 2048;
-  const presentationHeight = 1152;
   let state = { ...defaults };
-  let resizeFrame = 0;
-
-  const syncPresentationScale = () => {
-    window.cancelAnimationFrame(resizeFrame);
-    resizeFrame = window.requestAnimationFrame(() => {
-      if (window.innerWidth < 981) {
-        root.style.removeProperty("--presentation-scale");
-        return;
-      }
-
-      const scale = Math.min(
-        window.innerWidth / presentationWidth,
-        window.innerHeight / presentationHeight,
-      );
-      root.style.setProperty("--presentation-scale", scale.toFixed(6));
-    });
-  };
-
-  window.addEventListener("resize", syncPresentationScale, { passive: true });
-  document.addEventListener("fullscreenchange", syncPresentationScale);
-  document.addEventListener("webkitfullscreenchange", syncPresentationScale);
-  syncPresentationScale();
 
   try {
     const saved = JSON.parse(window.localStorage.getItem(STORAGE_KEY) || "null");
@@ -149,57 +125,6 @@
   };
 
   applyState();
-
-  const fullscreenButton = document.createElement("button");
-  fullscreenButton.type = "button";
-  fullscreenButton.className = "fullscreen-toggle";
-  fullscreenButton.textContent = "⛶";
-  fullscreenButton.title = "全屏展示";
-  fullscreenButton.setAttribute("aria-label", "进入全屏展示");
-  fullscreenButton.setAttribute("aria-pressed", "false");
-
-  const currentFullscreenElement = () =>
-    document.fullscreenElement || document.webkitFullscreenElement;
-
-  const updateFullscreenButton = () => {
-    const isFullscreen = Boolean(currentFullscreenElement());
-    fullscreenButton.dataset.active = String(isFullscreen);
-    fullscreenButton.setAttribute("aria-pressed", String(isFullscreen));
-    fullscreenButton.setAttribute(
-      "aria-label",
-      isFullscreen ? "退出全屏展示" : "进入全屏展示",
-    );
-    fullscreenButton.title = isFullscreen ? "退出全屏" : "全屏展示";
-  };
-
-  fullscreenButton.addEventListener("click", async () => {
-    try {
-      if (currentFullscreenElement()) {
-        const exitFullscreen =
-          document.exitFullscreen?.bind(document) ||
-          document.webkitExitFullscreen?.bind(document);
-        await exitFullscreen?.();
-      } else {
-        const requestFullscreen =
-          document.documentElement.requestFullscreen?.bind(document.documentElement) ||
-          document.documentElement.webkitRequestFullscreen?.bind(
-            document.documentElement,
-          );
-        await requestFullscreen?.();
-      }
-    } catch {
-      fullscreenButton.classList.add("is-unavailable");
-      window.setTimeout(
-        () => fullscreenButton.classList.remove("is-unavailable"),
-        1200,
-      );
-    }
-  });
-
-  document.addEventListener("fullscreenchange", updateFullscreenButton);
-  document.addEventListener("webkitfullscreenchange", updateFullscreenButton);
-  document.body.append(fullscreenButton);
-  updateFullscreenButton();
 
   if (!editorEnabled) return;
 
